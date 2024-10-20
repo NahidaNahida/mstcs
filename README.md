@@ -99,7 +99,7 @@ The tree structure of this project is shown as follows.
         adder_versions_info.md
 ```
 
-    ​The author welcomes replicability works and further studies based on this project. Should there be any technical and academic questions, please do not hesitate to contact the author (liyuechen@buaa.edu.cn).
+        The author welcomes replicability works and further studies based on this project. Should there be any technical and academic questions, please do not hesitate to contact the author (liyuechen@buaa.edu.cn).
 
 ## Requirements
 
@@ -113,9 +113,9 @@ scipy==1.14.1
 
 ## Folders for testing the object programs
 
-    ​There are 6 folders (i.e., `Identity`, `Integer Comparator`, `Linear Pauli Rotations`, `Quadratic Form`, `Quantum Fourier Transform` and `Weighted Adder`) that correspond to the object programs used in the manuscript. These 5 real-world quantum programs (except `Identity` of the six) can be found at `qiskit.circuit.library` (https://github.com/Qiskit/qiskit/tree/stable/1.2/qiskit/circuit/library).
+        There are 6 folders (i.e., `Identity`, `Integer Comparator`, `Linear Pauli Rotations`, `Quadratic Form`, `Quantum Fourier Transform` and `Weighted Adder`) that correspond to the object programs used in the manuscript. These 5 real-world quantum programs (except `Identity` of the six) can be found at `qiskit.circuit.library` (https://github.com/Qiskit/qiskit/tree/stable/1.2/qiskit/circuit/library).
 
-    ​For each folder, the following types of files are included.
+        ​For each folder, the following types of files are included.
 
 + `xxx.py`:
 
