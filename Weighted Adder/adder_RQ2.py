@@ -352,19 +352,17 @@ if __name__ == '__main__':
     # remember the length of pure_state_distribution should be 2 ** n
     inputs_2MS = [
         [2, 1, [[math.pi/2], [math.pi/2]], [[1/2, 1/2, 0, 0], [0, 0, 1/2, 1/2]], "T0"],
-        [2, 1, [[2*math.pi/3], [2*math.pi/3]], [[1/4, 3/4, 0, 0], [0, 0, 1/4, 3/4]], "T4"]
+        [2, 1, [[2*math.pi/3], [2*math.pi/3]], [[1/4, 3/4, 0, 0], [0, 0, 1/4, 3/4]], "T3"]
     ]
 
-    inputs_MPS = [
-        [2, 2, [math.pi/2, math.pi/2], [1/3, 1/3, 1/3, 0], "T1"],
-        [2, 2, [1.911, math.pi/2, math.pi/2], [1/4, 1/2, 1/4, 0], "T5"]
-    ]
+    inputs_MPS_sep = [[2, 2, [math.pi/2, math.pi/2], [1/3, 1/3, 1/3, 0], "T6 sep"]]
+    inputs_MPS_ent = [[2, 2, [1.231, math.pi/2, 0], [1/3, 1/3, 1/3, 0], "T6 ent"]]
 
     inputs_1MS = [
-        [2, 2, [math.pi/2, math.pi/2], [1/4, 1/4, 1/4, 1/4], "T2"],
-        [2, 3, [math.pi/2, math.pi/2, math.pi/2], [1/4, 1/4, 1/4, 1/4], "T3"],
-        [2, 2, [1.911, math.pi/2, math.pi/2], [1/6, 1/3, 1/6, 1/3], "T6"],
-        [2, 3, [1.911, math.pi/2, math.pi/2, math.pi/2, math.pi/2, math.pi/2, math.pi/2], [1/6, 1/3, 1/6, 1/3], "T7"]
+        [2, 2, [math.pi/2, math.pi/2], [1/4, 1/4, 1/4, 1/4], "T1"],
+        [2, 3, [math.pi/2, math.pi/2, math.pi/2], [1/4, 1/4, 1/4, 1/4], "T2"],
+        [2, 2, [1.911, math.pi/2, math.pi/2], [1/6, 1/3, 1/6, 1/3], "T4"],
+        [2, 3, [1.911, math.pi/2, math.pi/2, math.pi/2, math.pi/2, math.pi/2, math.pi/2], [1/6, 1/3, 1/6, 1/3], "T5"]
     ]
 
     # the test processes
@@ -375,9 +373,10 @@ if __name__ == '__main__':
         recorded_result = recorded_result + testing_process_MSTCs_2MS(program_version, weights_dict, inputs_2MS, 'qubits')
         recorded_result = recorded_result + testing_process_MSTCs_1MS(program_version, weights_dict, inputs_1MS, 'bits')
         recorded_result = recorded_result + testing_process_MSTCs_1MS(program_version, weights_dict, inputs_1MS, 'qubits')
-        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS, 'bits')
-        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS, 'qubits')
-
+        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS_sep, 'bits')
+        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS_sep, 'qubits')
+        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS_ent, 'bits')
+        recorded_result = recorded_result + testing_process_MSTCs_MPS(program_version, weights_dict, inputs_MPS_ent, 'qubits')
         # save the data
         program_name = 'WeightedAdder'
         file_name = "RQ2_" + program_name + "_" + program_version + ".csv"

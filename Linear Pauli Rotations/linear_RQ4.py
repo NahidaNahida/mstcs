@@ -262,7 +262,7 @@ if __name__ == '__main__':
         file_name = "RQ4_" + program_name + "_" + program_version + ".csv"
         with open(file_name, mode='w', newline='') as file:
             writer = csv.writer(file)
-            header = ['test_suite', '# test_cases', '# faults']
+            header = ['test_suite', '# test_cases', 'ave_fault']
             writer.writerow(header)
             for data in recorded_result:
                 writer.writerow(data)

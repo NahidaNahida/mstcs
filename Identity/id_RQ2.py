@@ -318,6 +318,8 @@ if __name__ == '__main__':
     recorded_result = recorded_result + testing_process_MSTCs_1MS(inputs_1MS, 'bits')
     recorded_result = recorded_result + testing_process_MSTCs_1MS(inputs_1MS, 'qubits')
     recorded_result = recorded_result + testing_process_MSTCs_MPS(inputs_MPS_sep, 'bits')
+    recorded_result = recorded_result + testing_process_MSTCs_MPS(inputs_MPS_sep, 'qubits')
+    recorded_result = recorded_result + testing_process_MSTCs_MPS(inputs_MPS_ent, 'bits')
     recorded_result = recorded_result + testing_process_MSTCs_MPS(inputs_MPS_ent, 'qubits')
 
     # save the data

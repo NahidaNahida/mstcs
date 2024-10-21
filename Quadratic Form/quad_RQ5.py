@@ -303,7 +303,7 @@ def testing_process_PSTCs(program_version, n, matA_dict, vecB_dict, c_list, shot
     file_name = "RQ5_" + program_name + '_' + program_version + "_PSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['shots', 'ave_time', '# faults']
+        header = ['shots', 'ave_time', 'ave_fault']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)

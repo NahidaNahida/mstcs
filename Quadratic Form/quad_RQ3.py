@@ -100,7 +100,7 @@ def testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
     file_name = "RQ3_" + program_name + '_' + program_version + "_PSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', '# ave_faults']
+        header = ['n','# test_cases', 'ave_fault']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -165,7 +165,7 @@ def testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
     file_name = "RQ3_" + program_name + '_' + program_version + "_MSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', '# ave_faults']
+        header = ['n','# test_cases', 'ave_fault']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)

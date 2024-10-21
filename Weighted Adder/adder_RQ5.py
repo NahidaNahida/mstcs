@@ -136,7 +136,7 @@ def testing_process_MSTCs_1MS(program_version, weights_dict, inputs_list,
     file_name = "RQ5_" + program_name + '_' + program_version + '_' + "MSTC(1MS)" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['shots', 'ave_time', 'faults']
+        header = ['shots', 'ave_time', 'ave_fault']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -244,7 +244,7 @@ def testing_process_MSTCs_2MS(program_version, weights_dict, inputs_list,
     file_name = "RQ5_" + program_name + '_' + program_version + '_' + "MSTC(2MS)" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['shots', 'ave_time', 'faults']
+        header = ['shots', 'ave_time', 'ave_fault']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
