@@ -1,4 +1,4 @@
-# Preparation-and-Utilization-of-Mixed-States-for-Testing-Quantum-Programs
+# MTSCs: Test Cases with Mixed States 
 This repository includes the code and data involved in the manuscript '*Preparation and Utilization of Mixed States for Testing Quantum Programs*'. 
 
 The author welcomes replicability works and further studies based on this repository. Should there be any technical and academic questions, please do not hesitate to contact the author (liyuechen@buaa.edu.cn).
