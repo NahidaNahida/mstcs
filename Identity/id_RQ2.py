@@ -105,8 +105,7 @@ def testing_process_MSTCs_1MS(inputs_list, mixed_pre_mode, repeats=20):
                             
         dura_time = time.time() - start_time
         recorded_result.append([input_name, mixed_pre_mode ,test_cases, 
-                                dura_time / repeats,
-                                dura_time / test_cases / repeats])
+                                dura_time / repeats])
     return recorded_result
 
 def testing_process_MSTCs_2MS(inputs_list, mixed_pre_mode, repeats=20):
@@ -189,8 +188,7 @@ def testing_process_MSTCs_2MS(inputs_list, mixed_pre_mode, repeats=20):
 
         dura_time = time.time() - start_time
         recorded_result.append([input_name, mixed_pre_mode ,test_cases, 
-                                dura_time / repeats,
-                                dura_time / test_cases / repeats])
+                                dura_time / repeats])
     return recorded_result
 
 def testing_process_MSTCs_MPS(inputs_list, mixed_pre_mode, repeats=20):
@@ -290,8 +288,7 @@ def testing_process_MSTCs_MPS(inputs_list, mixed_pre_mode, repeats=20):
                             
         dura_time = time.time() - start_time
         recorded_result.append([input_name, mixed_pre_mode ,test_cases, 
-                                dura_time / repeats,
-                                dura_time / test_cases / repeats])
+                                dura_time / repeats])
     return recorded_result
 
 if __name__ == '__main__':

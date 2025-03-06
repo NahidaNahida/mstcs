@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -17,12 +14,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from quad import QuadraticForm
 from quad_defect1 import QuadraticForm_defect1
 from quad_defect2 import QuadraticForm_defect2
 from quad_defect3 import QuadraticForm_defect3
 from quad_defect4 import QuadraticForm_defect4
 from quad_defect5 import QuadraticForm_defect5
+from quad_defect6 import QuadraticForm_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -289,7 +286,7 @@ if __name__ == '__main__':
     ]
 
     # the test processes
-    for program_version in ["v1", "v2", "v3", "v4", "v5"]:
+    for program_version in ["v1", "v2", "v3", "v4", "v5", "v6"]:
         print(program_version)
         recorded_result = []
         recorded_result = recorded_result + testing_process_MSTCs_2MS(program_version, matA_dict, vecB_dict, C_list, inputs_2MS, 'qubits')

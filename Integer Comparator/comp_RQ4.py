@@ -1,4 +1,4 @@
-from qiskit.circuit import QuantumCircuit
+from qiskit import QuantumCircuit
 import math
 import numpy as np
 import csv
@@ -13,12 +13,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from comp import IntegerComparator
 from comp_defect1 import IntegerComparator_defect1
 from comp_defect2 import IntegerComparator_defect2
 from comp_defect3 import IntegerComparator_defect3
 from comp_defect4 import IntegerComparator_defect4
 from comp_defect5 import IntegerComparator_defect5
+from comp_defect6 import IntegerComparator_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     ]
 
     # the test processes
-    for program_version in ["v1", "v2", "v3", "v4", "v5"]:
+    for program_version in ["v1", "v2", "v3", "v4", "v5", "v6"]:
         print(program_version)
         recorded_result = []
         recorded_result = recorded_result + testing_process_MSTCs_2MS(program_version, L_list, sign_list, inputs_2MS, 'qubits')
@@ -260,7 +260,7 @@ if __name__ == '__main__':
         file_name = "RQ4_" + program_name + "_" + program_version + ".csv"
         with open(file_name, mode='w', newline='') as file:
             writer = csv.writer(file)
-            header = ['test_suite', 'mixed_pre_mode', '# test_cases', 'ave_fault']
+            header = ['test_suite', '# test_cases', 'ave_fault']
             writer.writerow(header)
             for data in recorded_result:
                 writer.writerow(data)

@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -17,12 +14,12 @@ from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 from preparation_circuits import bit_controlled_preparation_1MS, qubit_controlled_preparation_1MS
 
-from quad import QuadraticForm
 from quad_defect1 import QuadraticForm_defect1
 from quad_defect2 import QuadraticForm_defect2
 from quad_defect3 import QuadraticForm_defect3
 from quad_defect4 import QuadraticForm_defect4
 from quad_defect5 import QuadraticForm_defect5
+from quad_defect6 import QuadraticForm_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -58,6 +55,7 @@ def testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
         initial_states = generate_numbers(n, len(candidate_initial_states))
         A_list, b_list = matA_dict[n], vecB_dict[n]
         start_time = time.time()
+        pre_time = 0                        # record time for state preparation
         num_classical_inputs = len(c_list) * len(A_list) * len(b_list)
         
         for _ in range(repeats):
@@ -69,12 +67,15 @@ def testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
                             test_cases += 1
                             number = int(''.join(map(str, initial_state)), 2)
                             qc = QuantumCircuit(n + num_out, num_out)
-                            initial_state = initial_state[::-1]
-                            
+                 
+                            pre_start_time = time.time()
+                            initial_state = initial_state[::-1]                            
                             for index, val in enumerate(initial_state):
                                 if candidate_initial_states[val] == 1:
                                     qc.x(index)
-                                        
+                            pre_end_time = time.time()
+                            pre_time += pre_end_time - pre_start_time
+
                             # append the tested quantum subroutine (quantum program)
                             func = version_selection(program_name, program_version)
                             qc_test = func(num_result_qubits=num_out, quadratic=A, linear=b, offset=c)
@@ -97,13 +98,16 @@ def testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
                             test_result = OPO_UTest(exp_samps, test_samps)
         
         dura_time = time.time() - start_time
-        recorded_result.append([n, test_cases, dura_time / num_classical_inputs / repeats])
+        recorded_result.append([n, 
+                                test_cases, 
+                                dura_time / num_classical_inputs / repeats, 
+                                pre_time / num_classical_inputs / repeats])
  
     # save the data
     file_name = "RQ1_" + program_name + '_' + program_version + "_PSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', 'ave_time']
+        header = ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -123,6 +127,7 @@ def testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
 
         num_classical_inputs = len(c_list) * len(A_list) * len(b_list)
         start_time = time.time()
+        pre_time = 0                        # record time for state preparation
         # determine m = n for this experiment
         m = n
         for _ in range(repeats):
@@ -133,15 +138,17 @@ def testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
                         test_cases += 1
                         qc = QuantumCircuit(m + n + num_out, num_out)
  
+                        pre_start_time = time.time() 
                         # prepare the control state
                         qc.h(qc.qubits[:m])
- 
                         # mixed state preparation
                         if mode == 'bits':
                             qc = bit_controlled_preparation_1MS(n, m, qc)
                         elif mode == 'qubits':
                             qc = qubit_controlled_preparation_1MS(n, m, qc)
-                        
+                        pre_end_time = time.time()
+                        pre_time += pre_end_time - pre_start_time    
+
                         # append the tested quantum subroutine (quantum program) 
                         func = version_selection(program_name, program_version)
                         qc_test = func(num_result_qubits=num_out, quadratic=A, linear=b, offset=c)
@@ -164,13 +171,16 @@ def testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
                         test_result = OPO_UTest(exp_samps, test_samps)
                                 
         dura_time = time.time() - start_time
-        recorded_result.append([n, test_cases, dura_time / num_classical_inputs / repeats])
+        recorded_result.append([n, 
+                                test_cases, 
+                                dura_time / num_classical_inputs / repeats, 
+                                pre_time / num_classical_inputs / repeats])
     
     # save the data
     file_name = "RQ1_" + program_name + '_' + program_version + '_' + mode + "_MSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', 'ave_time']
+        header = ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -178,9 +188,9 @@ def testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, c_list,
 
 if __name__ == '__main__':
     # the setting to generate classical inputs
-    n_list = [1] # range(2, 6)
+# the setting to generate classical inputs
+    n_list = range(2, 7)
     matA_dict = {
-        1: [[0], [1], [-1], [2], [-2]],
         2: [[[0, 0], [0, 1]], 
             [[-1, 2], [1, 1]], 
             [[2, 2], [0, -1]], 
@@ -200,19 +210,24 @@ if __name__ == '__main__':
             [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]], 
             [[-1, 2, 0, 1, 0], [0, -1, 1, -2, 0], [1, -2, 0, 1, 2], [0, 0, 1, 2, 1], [0, 1, 0, 1, 0]], 
             [[-1, 0, -1, 0, -1], [1, -1, 1, -1, 1], [2, -2, 2, -2, 2], [0, 1, 2, 0, 1], [0, 1, 2, 1, 0]], 
-            [[0, 0, 0, 1, 0], [0, -1, -1, 0, 2], [2, 1, 0, 1, -1], [1, 1, -1, -1, 0], [0, 0, 0, 1, 0]]]
+            [[0, 0, 0, 1, 0], [0, -1, -1, 0, 2], [2, 1, 0, 1, -1], [1, 1, -1, -1, 0], [0, 0, 0, 1, 0]]],
+        6: [[[1, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1]], 
+            [[1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1]], 
+            [[-1, 2, 1, 0, 1, 0], [0, -1, 1, -2, 0, -1], [1, -2, 0, 1, 2, 1], [0, 0, 1, 2, 0, 1], [0, 1, 0, 1, 0, 1], [-1, 0, 1, 2, 0, 1]], 
+            [[-1, 0, -1, 0, -1, 0], [1, -1, 1, -1, 1, -1], [2, -2, 2, -2, 2, -2], [0, 1, 2, 0, 1, 2], [0, 1, 2, 1, 0, 1], [2, 1, 1, 2, 1, 0]], 
+            [[0, 0, 0, 1, 0, 0], [0, -1, -1, 0, 2, 2], [2, 1, 0, 1, -1, 0], [1, 1, -1, -1, 0, 0], [0, 1, 0, 0, 1, 0], [1, 2, 1, 2, 0, 1]]]
     }
     vecB_dict = {
-        1: [[0], [1], [-1], [2], [-2]],
         2: [[0, 0], [0, 1], [-1, 2], [1, 1], [2, 2]],
         3: [[0, 0, 1], [0, 1, -1], [1, -1, 2], [1, -1, 2], [1, 1, 0]], 
         4: [[1, -2, 0, 1], [0, 1, 1, 0], [1, 0, 0, 1], [1, 1, 2, 0], [-1, 1, 2, 1]],  
         5: [[1, 1, 1, 1, 1], [-1, 2, 0, 1, 0],  [0, 0, 1, 2, 1], [1, 1, -1, -1, 0], [0, 0, 0, 1, 0]],
+        6: [[-2, 1, 0, -1, 2, 1], [0, 0, 0, 1, 0, 0], [1, 1, 1, 1, 1, 1], [0, 1, 0, 1, 0, 1], [-1, -1, -1, -1, -1, -1]]
     }
     C_list = np.arange(-2, 3, 1)
 
     # the test processes
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, C_list)
         testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, C_list, 'bits')

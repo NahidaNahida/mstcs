@@ -1,19 +1,16 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
-from qiskit.quantum_info import Statevector
-from qiskit.circuit.library import RYGate
-from qiskit import QuantumCircuit, transpile, assemble, execute
+from qiskit import QuantumCircuit
  
 import numpy as np
  
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from adder import WeightedAdder
 from adder_defect1 import WeightedAdder_defect1
 from adder_defect2 import WeightedAdder_defect2
 from adder_defect3 import WeightedAdder_defect3
 from adder_defect4 import WeightedAdder_defect4
 from adder_defect5 import WeightedAdder_defect5
+from adder_defect6 import WeightedAdder_defect6
 
 from data_convertion import generate_numbers
 import math
@@ -84,15 +81,16 @@ def info_collection(program_version, n_list, weights_dict):
    
 if __name__ == '__main__':
     # the setting to generate classical inputs
-    n_list = range(1, 6)
+    n_list = range(1, 7)
     weights_dict = {
-        1: [[0], [1], [2]],
+        1: [[0], [1], [2], [3], [4]],
         2: [[0, 0], [0, 1], [1, 2], [1, 1], [2, 2]],
         3: [[0, 0, 0], [2, 0, 2], [1, 1, 0], [0, 2, 1], [1, 0, 2]],
         4: [[0, 1, 1, 1], [0, 0, 0, 0], [2, 2, 0, 0], [1, 1, 0, 0], [1, 2, 0, 1]],
-        5: [[1, 0, 2, 1, 2], [0, 0, 1, 0, 0], [0, 2, 0, 1, 0], [2, 0, 1, 1, 0], [0, 0, 2, 1, 0]]
+        5: [[1, 0, 2, 1, 2], [0, 0, 1, 0, 0], [0, 2, 0, 1, 0], [2, 0, 1, 1, 0], [0, 0, 2, 1, 0]],
+        6: [[1, 2, 2, 2, 2, 1], [0, 0, 0, 0, 0, 0], [2, 1, 0, 1, 1, 1], [1, 3, 1, 0, 2, 0], [1, 1, 0, 0, 0, 2]]
     }
     
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         info_collection(program_version, n_list, weights_dict)

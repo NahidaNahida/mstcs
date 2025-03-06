@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -21,6 +18,7 @@ from comp_defect2 import IntegerComparator_defect2
 from comp_defect3 import IntegerComparator_defect3
 from comp_defect4 import IntegerComparator_defect4
 from comp_defect5 import IntegerComparator_defect5
+from comp_defect6 import IntegerComparator_defect6
 
 import time
 
@@ -56,6 +54,7 @@ def testing_process_PSTCs(program_version, n_list, L_list, sign_list, repeats=20
         initial_states_list = generate_numbers(n, len(candidate_initial_states))
         num_classical_inputs = len(L_list) * len(sign_list)
         start_time = time.time()
+        pre_time = 0                        # record time for state preparation
         for _ in range(repeats):
             test_cases = 0
             for L in L_list:
@@ -64,11 +63,15 @@ def testing_process_PSTCs(program_version, n_list, L_list, sign_list, repeats=20
                         test_cases += 1
                         number = int(''.join(map(str, initial_states)), 2)
                         qc = QuantumCircuit(2 * n, n)
+
+                        pre_start_time = time.time()
                         initial_states = initial_states[::-1]
                         for index, val in enumerate(initial_states):
                             if candidate_initial_states[val] == 1:
                                 qc.x(index)
-                                        
+                        pre_end_time = time.time()
+                        pre_time += pre_end_time - pre_start_time
+
                         # append the tested quantum subroutine (quantum program) 
                         func = version_selection(program_name, program_version)
                         qc_test = func(n, L, geq=sign)
@@ -91,13 +94,16 @@ def testing_process_PSTCs(program_version, n_list, L_list, sign_list, repeats=20
                         test_result = OPO_UTest(exp_samps, test_samps)
 
         dura_time = time.time() - start_time
-        recorded_result.append([n, test_cases, dura_time / num_classical_inputs / repeats])
+        recorded_result.append([n, 
+                                test_cases, 
+                                dura_time / num_classical_inputs / repeats, 
+                                pre_time / num_classical_inputs / repeats])
   
     # save the data
     file_name = "RQ1_" + program_name + '_' + program_version + "_PSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', 'ave_time']
+        header = ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -117,6 +123,7 @@ def testing_process_MSTCs(program_version, n_list, L_list, sign_list, mode, repe
         
         num_classical_inputs = len(L_list) * len(sign_list)
         start_time = time.time()
+        pre_time = 0                        # record time for state preparation
         # determine m = n for this experiment
         m = n
         for _ in range(repeats):
@@ -126,15 +133,17 @@ def testing_process_MSTCs(program_version, n_list, L_list, sign_list, mode, repe
                     test_cases += 1
                     qc = QuantumCircuit(2 * n + m, n)
 
+                    pre_start_time = time.time()
                     # prepare the control state
                     qc.h(qc.qubits[:m])
-
                     # mixed state preparation
                     if mode == 'bits':
                         qc = bit_controlled_preparation_1MS(n, m, qc)
                     elif mode == 'qubits':
                         qc = qubit_controlled_preparation_1MS(n, m, qc)
-                        
+                    pre_end_time = time.time()
+                    pre_time += pre_end_time - pre_start_time                    
+
                     # append the tested quantum subroutine (quantum program) 
                     func = version_selection(program_name, program_version)
                     qc_test = func(n, L, geq=sign)
@@ -157,13 +166,16 @@ def testing_process_MSTCs(program_version, n_list, L_list, sign_list, mode, repe
                     test_result = OPO_UTest(exp_samps, test_samps)
                         
         dura_time = time.time() - start_time
-        recorded_result.append([n, test_cases, dura_time / num_classical_inputs / repeats])
+        recorded_result.append([n, 
+                                test_cases, 
+                                dura_time / num_classical_inputs / repeats, 
+                                pre_time / num_classical_inputs / repeats])
  
     # save the data
     file_name = "RQ1_" + program_name + '_' + program_version + '_' + mode + "_MSTC" + ".csv"
     with open(file_name, mode='w', newline='') as file:
         writer = csv.writer(file)
-        header = ['n','# test_cases', 'ave_time']
+        header = ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)']
         writer.writerow(header)
         for data in recorded_result:
             writer.writerow(data)
@@ -171,12 +183,12 @@ def testing_process_MSTCs(program_version, n_list, L_list, sign_list, mode, repe
 
 if __name__ == '__main__':
     # the setting to generate classical inputs
-    n_list = range(1, 6)
+    n_list = range(1, 7)                            # set the input qubits from 1 to 7
     L_list = np.arange(-5, 5.1, 1)
     sign_list =  [True, False]
     
     # the test processes
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         testing_process_PSTCs(program_version, n_list, L_list, sign_list)
         testing_process_MSTCs(program_version, n_list, L_list, sign_list, 'bits')

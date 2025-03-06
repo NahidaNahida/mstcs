@@ -1,6 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -15,12 +13,12 @@ from quad_specification import PSTC_specification, MSTC_specification
 from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 
-from quad import QuadraticForm
 from quad_defect1 import QuadraticForm_defect1
 from quad_defect2 import QuadraticForm_defect2
 from quad_defect3 import QuadraticForm_defect3
 from quad_defect4 import QuadraticForm_defect4
 from quad_defect5 import QuadraticForm_defect5
+from quad_defect6 import QuadraticForm_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -206,7 +204,7 @@ if __name__ == '__main__':
     C_list = np.arange(-2, 3, 1)
 
     # the test processes
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         testing_process_PSTCs(program_version, n_list, matA_dict, vecB_dict, C_list)
         testing_process_MSTCs(program_version, n_list, matA_dict, vecB_dict, C_list)

@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit 
  
 import numpy as np
 import csv
@@ -18,12 +15,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from quad import QuadraticForm
 from quad_defect1 import QuadraticForm_defect1
 from quad_defect2 import QuadraticForm_defect2
 from quad_defect3 import QuadraticForm_defect3
 from quad_defect4 import QuadraticForm_defect4
 from quad_defect5 import QuadraticForm_defect5
+from quad_defect6 import QuadraticForm_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -310,6 +307,8 @@ def testing_process_PSTCs(program_version, n, matA_dict, vecB_dict, c_list, shot
     print('PSTCs done!')
  
 if __name__ == '__main__':
+    n = 5       # the number of input qubits
+    program_versions = ['v1']  
     # the setting to generate classical inputs
     matA_dict = {
         2: [[[0, 0], [0, 1]], 
@@ -342,19 +341,19 @@ if __name__ == '__main__':
     C_list = np.arange(-2, 3, 1)
 
     # remember the length of pure_state_distribution should be 2 ** n
-    inputs_2MS = [5, 4, 
-                  [[math.pi/2] * 4, [math.pi/2] * 4], 
-                  [[1 / (2 ** 4)] * (2 ** 4) + [0] * (2 ** 4), 
-                   [0] * (2 ** 4) + [1 / (2 ** 4)] * (2 ** 4)]]
-    inputs_1MS = [5, 5, 
-                  [math.pi/2] * 5, 
-                  [1 / (2 ** 5)] * (2 ** 5)]
+    inputs_2MS = [n, n - 1, 
+                  [[math.pi/2] * (n - 1), [math.pi/2] * (n - 1)], 
+                  [[1 / (2 ** (n - 1))] * (2 ** (n - 1)) + [0] * (2 ** (n - 1)), 
+                   [0] * (2 ** (n - 1)) + [1 / (2 ** (n - 1))] * (2 ** (n - 1))]]
+    inputs_1MS = [n, n, 
+                  [math.pi/2] * n, 
+                  [1 / (2 ** n)] * (2 ** n)]
 
     # the test processes
     shots_list = range(8, 1025, 8)
-    for program_version in ["v1"]:
+    for program_version in program_versions:
         print(program_version)
         testing_process_MSTCs_2MS(program_version, matA_dict, vecB_dict, C_list, inputs_2MS, 'qubits', shots_list)
         testing_process_MSTCs_1MS(program_version, matA_dict, vecB_dict, C_list, inputs_1MS, 'qubits', shots_list)
-        testing_process_PSTCs(program_version, 5, matA_dict, vecB_dict, C_list, shots_list)
+        testing_process_PSTCs(program_version, n, matA_dict, vecB_dict, C_list, shots_list)
     print('done!')
