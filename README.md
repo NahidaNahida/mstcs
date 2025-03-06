@@ -9,6 +9,8 @@ The author welcomes replicability works and further studies based on this reposi
 
 The codes are updated due to the major revision of a submitted manuscript. (realised at 2025-03-06)
 
+This repository is promised to keep iterating until the possible publication of the manuscript.
+
 ### Changes
 
 + Add a new folder `Linear Amplitude Function` corresponding to the newly introduced object program.
