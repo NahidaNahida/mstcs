@@ -10,6 +10,7 @@ The author welcomes replicability works and further studies based on this reposi
 The codes are updated due to the major revision of a submitted manuscript. (realised at 2025-03-05)
 
 ### Changes
++ `xxx_versions_info.md` adds the description for complexity that is derived from the corresponding `xxx_circuit_info.py`.
 
 ## Requirements
 
