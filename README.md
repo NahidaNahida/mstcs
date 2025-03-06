@@ -18,7 +18,7 @@ The codes are updated due to the major revision of a submitted manuscript. (real
 + `xxx_versions_info.md` adds the description for complexity that is derived from the corresponding `xxx_circuit_info.py`.
 + Part of the codes are slightly reconstructed.
 
-`xxx` is denoted as one of `Identity`, `Integer Comparator`, `Linear Pauli Rotations`, `Linear Amplitude Function`, `Quadratic Form`, `Quantum Fourier Transform` and `Weighted Adder`.
+`xxx` is denoted as one of `Id`, `comp`, `pauli`, `amplitude`, `quad`, `qft` and `adder`.
 
 ## Requirements
 
@@ -38,7 +38,7 @@ For each folder, the following types of files are included.
 
 + `xxx.py`:
 
-  The raw version of each quantum program,  where `xxx` refers to the name of the object program (i.e., `Id`, `comp`, `linear`, `quad`, `qft` and `adder`).  
+  The raw version of each quantum program,  where `xxx` refers to the name of the object program (i.e., `Id`, `comp`, `pauli`, `amplitude`, `quad`, `qft` and `adder`).  
 
 + `xxx_circuit_info.py`:
 
