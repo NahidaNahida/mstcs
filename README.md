@@ -50,7 +50,7 @@ For each folder, the following types of files are included.
 
 + `xxx_versions_info.md`:
 
-  This file details the manually implanted bugs mentioned in Table 2 of the manuscript.
+  This file details the manually implanted bugs mentioned in Table 3 of the manuscript.
 
 + `xxx_defecti.py`:
 
@@ -58,7 +58,7 @@ For each folder, the following types of files are included.
 
 + `xxx_RQj.py`:
 
-  This file implements the experiment for RQ`j`, where `j`=1, 2, 3, 4 and 5. **When replicating the experiment, please run this file directly**.
+  This file implements the experiment for RQ`j`, where `j`=1, 2, 3, 4, 5 and 6. **When replicating the experiment, please run this file directly**.
 
 ## Files of involved functions
 
