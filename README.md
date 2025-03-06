@@ -38,7 +38,7 @@ For each folder, the following types of files are included.
 
 + `xxx.py`:
 
-  The raw version of each quantum program,  where `xxx` refers to the name of the object program (i.e., `Id`, `comp`, `pauli`, `amplitude`, `quad`, `qft` and `adder`).  
+  The raw version of each quantum program.
 
 + `xxx_circuit_info.py`:
 
