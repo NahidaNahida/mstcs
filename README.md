@@ -3,9 +3,13 @@ This repository includes the code and data involved in the manuscript '*Preparat
 
 The author welcomes replicability works and further studies based on this repository. Should there be any technical and academic questions, please do not hesitate to contact the author (liyuechen@buaa.edu.cn).
 
-## News
+## Release Notes
+
+### Prelude
 
 The codes are updated due to the major revision of a submitted manuscript. (realised at 2025-03-05)
+
+### Changes
 
 ## Requirements
 
