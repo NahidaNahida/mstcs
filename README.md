@@ -44,7 +44,7 @@ For each folder, the following types of files are included.
 
 + `xxx_circuit_info.py`:
 
-  This file is used to collect basic information (# Qubits, # Gates and #Depths) of the quantum circuit corresponding to each program version. The relevant results are displayed in Table 2 of the manuscript.
+  This file is used to collect basic information (# Qubits, # Gates and #Depths) of the quantum circuit corresponding to each program version. The relevant results are displayed in Table 3 of the manuscript.
 
 + `xxx_specification.py`:
 
