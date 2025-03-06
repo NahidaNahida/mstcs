@@ -1,3 +1,5 @@
+from qiskit import QuantumCircuit
+
 import numpy as np
 import csv
 
@@ -13,12 +15,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from qft import QFT
 from qft_defect1 import QFT_defect1
 from qft_defect2 import QFT_defect2
 from qft_defect3 import QFT_defect3
 from qft_defect4 import QFT_defect4
 from qft_defect5 import QFT_defect5
+from qft_defect6 import QFT_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -260,10 +262,7 @@ def testing_process_PSTCs(program_version, n, if_swap_list, shots_list, repeats=
                     qc.measure(qc.qubits[:],qc.clbits[:])
                         
                     # execute the program and derive the outputs
-                    backend = Aer.get_backend('qasm_simulator')
-                    executedQC = transpile(qc, backend)
-                    count= backend.run(executedQC, shots=shots).result().get_counts()
-                    dict_counts = count.int_outcomes()
+                    dict_counts = circuit_execution(qc, shots)
 
                     # obtain the samples (measurement results) of the tested program
                     test_samps = []
@@ -297,23 +296,24 @@ def testing_process_PSTCs(program_version, n, if_swap_list, shots_list, repeats=
 
  
 if __name__ == '__main__':
+    n = 6       # the number of input qubits
+    program_versions = ["v1"]
+
     # the setting to generate classical inputs
     if_swap_list = [True, False]
-
     # remember the length of pure_state_distribution should be 2 ** n
-    inputs_2MS = [5, 4, 
-                  [[math.pi/2] * 4, [math.pi/2] * 4], 
-                  [[1 / (2 ** 4)] * (2 ** 4) + [0] * (2 ** 4), 
-                   [0] * (2 ** 4) + [1 / (2 ** 4)] * (2 ** 4)]]
-    inputs_1MS = [5, 5, 
-                  [math.pi/2] * 5, 
-                  [1 / (2 ** 5)] * (2 ** 5)]
-
+    inputs_2MS = [n, n - 1, 
+                  [[math.pi/2] * (n - 1), [math.pi/2] * (n - 1)], 
+                  [[1 / (2 ** (n - 1))] * (2 ** (n - 1)) + [0] * (2 ** (n - 1)), 
+                   [0] * (2 ** (n - 1)) + [1 / (2 ** (n - 1))] * (2 ** (n - 1))]]
+    inputs_1MS = [n, n, 
+                  [math.pi/2] * n, 
+                  [1 / (2 ** n)] * (2 ** n)]
     # the test processes
     shots_list = range(8, 1025, 8)
-    for program_version in ["v1"]:
+    for program_version in program_versions:
         print(program_version)
         testing_process_MSTCs_2MS(program_version, if_swap_list, inputs_2MS, 'qubits', shots_list)
         testing_process_MSTCs_1MS(program_version, if_swap_list, inputs_1MS, 'qubits', shots_list)
-        testing_process_PSTCs(program_version, 5, if_swap_list, shots_list)
+        testing_process_PSTCs(program_version, n, if_swap_list, shots_list)
     print('done!')

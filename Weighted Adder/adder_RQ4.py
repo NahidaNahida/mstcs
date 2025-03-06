@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -16,12 +13,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from adder import WeightedAdder
 from adder_defect1 import WeightedAdder_defect1
 from adder_defect2 import WeightedAdder_defect2
 from adder_defect3 import WeightedAdder_defect3
 from adder_defect4 import WeightedAdder_defect4
 from adder_defect5 import WeightedAdder_defect5
+from adder_defect6 import WeightedAdder_defect6
 
 import math
 import time
@@ -274,7 +271,7 @@ if __name__ == '__main__':
     ]
 
     # the test processes
-    for program_version in ["v1", "v2", "v3", "v4", "v5"]:
+    for program_version in ["v1", "v2", "v3", "v4", "v5", "v6"]:
         print(program_version)
         recorded_result = []
         recorded_result = recorded_result + testing_process_MSTCs_2MS(program_version, weights_dict, inputs_2MS, 'qubits')     

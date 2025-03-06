@@ -1,5 +1,7 @@
 import random
 from circuit_execution import circuit_execution
+import copy
+from collections import defaultdict
 
 def repeat_until_success(qc, shots, invalid_list):
     '''
@@ -17,14 +19,14 @@ def repeat_until_success(qc, shots, invalid_list):
         Running example:
             Run the following codes, where we hope the results of control qubits follows the
             uniform distribution and ranges in {0, 1, 2}.
-
+            -------------------------------------------------------------------------------
                 qc = QuantumCircuit(3, 3)
                 m = 2
                 qc.h(qc.qubits[:2])
                 qc.measure(qc.qubits[:], qc.clbits[:])
                 final_counts = repeat_until_success(qc, 1000, [3])
                 print(final_counts)
-
+            -------------------------------------------------------------------------------
             The output is 
 
                 {1: 307, 2: 357, 0: 336}
@@ -32,14 +34,14 @@ def repeat_until_success(qc, shots, invalid_list):
     flag = 0
     while True:
         dict_counts = circuit_execution(qc, shots)
-        temp_dict_counts = dict_counts.copy()
+        temp_dict_counts = copy.deepcopy(dict_counts)
         # remove invalid control instruction
         keys_to_remove = [key for key in temp_dict_counts if key in invalid_list]
         for key in keys_to_remove:
             del temp_dict_counts[key]
         if flag == 0:             # the first run
             flag = 1
-            final_counts = temp_dict_counts.copy()
+            final_counts = copy.deepcopy(temp_dict_counts)
         else:
             # randomly selecting (remained_samps) samples                
             samps_list = list(temp_dict_counts.keys())
@@ -53,11 +55,10 @@ def repeat_until_success(qc, shots, invalid_list):
                 else:
                     sampled_dict[sample] = 1
             # merge the dictionary
+            final_counts = defaultdict(int, final_counts)
             for key, value in sampled_dict.items():
-                if key in dict_counts:
-                    final_counts[key] += value
-                else:
-                    final_counts[key] = value
+                final_counts[key] += value
+            
         # check the number of valid samples
         temp_samps = sum(final_counts.values())
         remained_samps = shots - temp_samps
@@ -80,18 +81,18 @@ def generate_invalid_numbers(total_bits, con_bits, invalid_con_list):
 
         Running example:
             Run the following codes
-
+            ------------------------------------------------------------------------------------
                 n = 2
                 m = 3
                 invalid_con_list = [6, 7]
                 invalid_num_list = generate_invalid_numbers(n + m, m, invalid_con_list)
                 print(invalid_num_list)
-
+            -----------------------------------------------------------------------------------
             The displayed output should be
             
                 [6, 7, 14, 15, 22, 23, 30, 31]
             
-            where the low m=3 bits are 110 (decimal 6) and 111 (decimal 7).
+            where the least significant m=3 bits are 110 (decimal 6) and 111 (decimal 7).
     '''
     # calculate the number of target qubits, where the control bits are default as low ones.
     high_bits = total_bits - con_bits

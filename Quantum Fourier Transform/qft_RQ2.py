@@ -1,3 +1,5 @@
+from qiskit import QuantumCircuit
+
 import numpy as np
 import csv
 
@@ -13,12 +15,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from qft import QFT
 from qft_defect1 import QFT_defect1
 from qft_defect2 import QFT_defect2
 from qft_defect3 import QFT_defect3
 from qft_defect4 import QFT_defect4
 from qft_defect5 import QFT_defect5
+from qft_defect6 import QFT_defect6
 
 def version_selection(program_name, program_version):
     '''
@@ -331,7 +333,7 @@ if __name__ == '__main__':
     ]
 
     # the test processes
-    for program_version in ["v1", "v2", "v3", "v4", "v5"]:
+    for program_version in ["v1", "v2", "v3", "v4", "v5", "v6"]:
         print(program_version)
         recorded_result = []
         recorded_result = recorded_result + testing_process_MSTCs_2MS(program_version, if_swap_list, inputs_2MS, 'bits')

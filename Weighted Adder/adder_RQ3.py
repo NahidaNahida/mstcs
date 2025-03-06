@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -14,12 +11,12 @@ from adder_specification import PSTC_specification, MSTC_specification
 from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 
-from adder import WeightedAdder
 from adder_defect1 import WeightedAdder_defect1
 from adder_defect2 import WeightedAdder_defect2
 from adder_defect3 import WeightedAdder_defect3
 from adder_defect4 import WeightedAdder_defect4
 from adder_defect5 import WeightedAdder_defect5
+from adder_defect6 import WeightedAdder_defect6
 
 import math
 
@@ -179,16 +176,17 @@ def testing_process_MSTCs(program_version, n_list, weights_dict, repeats=20):
 
 if __name__ == '__main__':
     # the setting to generate classical inputs
-    n_list = range(1, 6)
+    n_list = range(1, 7)
     weights_dict = {
-        1: [[0], [1], [2]],
+        1: [[0], [1], [2], [3], [4]],
         2: [[0, 0], [0, 1], [1, 2], [1, 1], [2, 2]],
         3: [[0, 0, 0], [2, 0, 2], [1, 1, 0], [0, 2, 1], [1, 0, 2]],
         4: [[0, 1, 1, 1], [0, 0, 0, 0], [2, 2, 0, 0], [1, 1, 0, 0], [1, 2, 0, 1]],
-        5: [[1, 0, 2, 1, 2], [0, 0, 1, 0, 0], [0, 2, 0, 1, 0], [2, 0, 1, 1, 0], [0, 0, 2, 1, 0]]
+        5: [[1, 0, 2, 1, 2], [0, 0, 1, 0, 0], [0, 2, 0, 1, 0], [2, 0, 1, 1, 0], [0, 0, 2, 1, 0]],
+        6: [[1, 2, 2, 2, 2, 1], [0, 0, 0, 0, 0, 0], [2, 1, 0, 1, 1, 1], [1, 3, 1, 0, 2, 0], [1, 1, 0, 0, 0, 2]]
     }
     # the test processes
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         testing_process_PSTCs(program_version, n_list, weights_dict)
         testing_process_MSTCs(program_version, n_list, weights_dict)

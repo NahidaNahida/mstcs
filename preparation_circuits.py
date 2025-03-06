@@ -1,8 +1,7 @@
 import math
 from qiskit.circuit import QuantumCircuit
 from qiskit.circuit.library import RYGate 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
 import numpy as np
 from circuit_execution import circuit_execution
 

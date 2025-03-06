@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -16,12 +13,12 @@ from circuit_execution import circuit_execution
 from preparation_circuits import *
 from repeat_until_success import *
 
-from adder import WeightedAdder
 from adder_defect1 import WeightedAdder_defect1
 from adder_defect2 import WeightedAdder_defect2
 from adder_defect3 import WeightedAdder_defect3
 from adder_defect4 import WeightedAdder_defect4
 from adder_defect5 import WeightedAdder_defect5
+from adder_defect6 import WeightedAdder_defect6
 
 import math
 import time
@@ -250,7 +247,80 @@ def testing_process_MSTCs_2MS(program_version, weights_dict, inputs_list,
             writer.writerow(data)
     print('MSTCs(2MS) done!')
 
+def testing_process_PSTCs(program_version, n, weights_dict, shots_list, repeats=20):
+    program_name = 'WeightedAdder'
+    candidate_initial_states = [0, 1]
+
+    recorded_result = [] 
+    for shots in shots_list:            
+        initial_states_list = generate_numbers(n, len(candidate_initial_states))
+        weights_list = weights_dict[n]
+        num_classical_inputs = len(weights_list)
+        total_failures = 0
+        start_time = time.time()
+        for _ in range(repeats):
+            test_cases = 0
+            for weight in weights_list:              # calculate the number of output qubits s
+                if np.sum(weight) == 0:
+                    s = 1
+                else:
+                    s = 1 + math.floor(math.log2(np.sum(weight)))
+
+                # append the tested quantum subroutine (quantum program) 
+                func = version_selection(program_name, program_version)
+                qc_test = func(n, weight)
+
+                for initial_states in initial_states_list:
+                    test_cases += 1
+                    number = int(''.join(map(str, initial_states)), 2)
+
+                    initial_states = initial_states[::-1]
+                    qc = QuantumCircuit(qc_test.num_qubits, s)
+                    # state preparation
+                    for index, val in enumerate(initial_states):
+                        if candidate_initial_states[val] == 1:
+                            qc.x(index)
+                    pre_end_time = time.time()
+
+                    qc.append(qc_test, qc.qubits)
+                    qc.measure(qc.qubits[n: n + s],qc.clbits)
+
+                    # execute the program and derive the outputs
+                    dict_counts = circuit_execution(qc, shots)
+
+                    # obtain the samples (measurement results) of the tested program
+                    test_samps = []
+                    for (key, value) in dict_counts.items():
+                        test_samps += [key] * value
+                    
+                    # generate the samples that follow the expected probability distribution
+                    exp_probs = PSTC_specification(s, initial_states, weight)
+                    exp_samps = list(np.random.choice(range(2 ** qc.num_clbits), size=shots, p=exp_probs))
+
+                    # derive the test result by nonparametric hypothesis test
+                    test_result = OPO_UTest(exp_samps, test_samps)
+                    if test_result == 'fail':
+                        total_failures += 1    
+
+        dura_time = time.time() - start_time
+        recorded_result.append([shots, 
+                                dura_time / num_classical_inputs / repeats, 
+                                total_failures / test_cases / repeats])
+  
+    # save the data
+    file_name = "RQ5_" + program_name + '_' + program_version + "_PSTC" + ".csv"
+    with open(file_name, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        header = ['shots', 'ave_time', 'ave_fault']
+        writer.writerow(header)
+        for data in recorded_result:
+            writer.writerow(data)
+    print('PSTCs done!')    
+
 if __name__ == '__main__':
+    n = 5       # the number of input qubits
+    program_versions = ['v1']    
+
     # the setting to generate classical inputs
     weights_dict = {
         1: [[0], [1], [2]],
@@ -261,22 +331,17 @@ if __name__ == '__main__':
     }
 
     # remember the length of pure_state_distribution should be 2 ** n
-    inputs_2MS = [
-        [2, 1, 
-         [[math.pi/2], [math.pi/2]], 
-         [[0.5, 0.5, 0, 0], 
-          [0, 0, 0.5, 0.5]], "2MS"],
-    ]
-
-    inputs_1MS = [
-        [2, 2, 
-         [4*math.pi/8, math.pi/2], 
-         [0.25, 0.25, 0.25, 0.25], "1MS"]
-    ]
+    inputs_2MS = [n, n - 1, 
+                  [[math.pi/2] * (n - 1), [math.pi/2] * (n - 1)], 
+                  [[1 / (2 ** (n - 1))] * (2 ** (n - 1)) + [0] * (2 ** (n - 1)), 
+                   [0] * (2 ** (n - 1)) + [1 / (2 ** (n - 1))] * (2 ** (n - 1))]]
+    inputs_1MS = [n, n, 
+                  [math.pi/2] * n, 
+                  [1 / (2 ** n)] * (2 ** n)]
 
     # the test processes
-    shots_list = range(10, 2001, 50)
-    for program_version in ["v1", "v2", "v3", "v4", "v5"]:
+    shots_list = range(8, 1025, 8)
+    for program_version in program_versions:
         print(program_version)
         testing_process_MSTCs_1MS(program_version, weights_dict, inputs_1MS, 'qubits', shots_list)
         testing_process_MSTCs_2MS(program_version, weights_dict, inputs_2MS, 'qubits', shots_list)

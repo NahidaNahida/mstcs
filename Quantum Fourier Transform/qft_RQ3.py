@@ -1,7 +1,4 @@
-from qiskit.circuit import QuantumRegister, QuantumCircuit, ParameterVector
- 
-from qiskit import QuantumCircuit, transpile
-from qiskit_aer import Aer
+from qiskit import QuantumCircuit
  
 import numpy as np
 import csv
@@ -14,12 +11,12 @@ from qft_specification import PSTC_specification, MSTC_specification
 from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 
-from qft import QFT
 from qft_defect1 import QFT_defect1
 from qft_defect2 import QFT_defect2
 from qft_defect3 import QFT_defect3
 from qft_defect4 import QFT_defect4
 from qft_defect5 import QFT_defect5
+from qft_defect6 import QFT_defect6
     
 def version_selection(program_name, program_version):
     '''
@@ -166,11 +163,11 @@ def testing_process_MSTCs(program_version, n_list, if_swap_list, repeats=20):
  
 if __name__ == '__main__':
     # the setting to generate classical inputs
-    n_list = range(1, 6, 1)
+    n_list = range(1, 7, 1)
     if_swap_list = [True, False]
     
     # the test processes
-    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5']:
+    for program_version in ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']:
         print(program_version)
         testing_process_PSTCs(program_version, n_list, if_swap_list)
         testing_process_MSTCs(program_version, n_list, if_swap_list)
