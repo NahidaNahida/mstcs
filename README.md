@@ -10,7 +10,15 @@ The author welcomes replicability works and further studies based on this reposi
 The codes are updated due to the major revision of a submitted manuscript. (realised at 2025-03-05)
 
 ### Changes
+
++ Add a new folder `Linear Amplitude Function` corresponding to the newly introduced object program.
++ Add `xxx_defect6.py` for each object program folder, because of a newly included buggy version.
++ `xxx_RQ1.py` is updated to record the time for state preparation.
++ The maximum of classical inputs $n$ in `xxx_RQ1.py` and `xxx_RQ3.py` increase to 6.
 + `xxx_versions_info.md` adds the description for complexity that is derived from the corresponding `xxx_circuit_info.py`.
++ Part of the code is slight reconstructed.
+
+`xxx` is denoted as one of `Identity`, `Integer Comparator`, `Linear Pauli Rotations`, `Linear Amplitude Function`, `Quadratic Form`, `Quantum Fourier Transform` and `Weighted Adder`.
 
 ## Requirements
 
