@@ -1,0 +1,17 @@
+test_suite,mixed_pre_mode,# test_cases,ave_time
+T0,bits,10,0.022080216
+T0,qubits,10,0.0222121
+T1,bits,5,0.013119605
+T1,qubits,5,0.00802994
+T2,bits,5,0.013159001
+T2,qubits,5,0.008089542
+T3,bits,10,0.021875405
+T3,qubits,10,0.022361772
+T4,bits,5,0.015384767
+T4,qubits,5,0.009864795
+T5,bits,5,0.02898977
+T5,qubits,5,0.017695761
+T6 ent,bits,10,0.025175817
+T6 ent,qubits,10,0.016303961
+T6 sep,bits,10,0.030566697
+T6 sep,qubits,10,0.020461144
