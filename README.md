@@ -1,17 +1,18 @@
-# MTSCs: Test Cases with Mixed States 
-This repository includes the code and data involved in the manuscript '*Preparation and Utilization of Mixed States for Testing Quantum Programs*'. 
+# mstcs
+This repository includes the all code and data involved in the paper "*Preparation and Utilization of Mixed States for Testing Quantum Programs*" that has been accepted as a journal-first paper at ACM Transactions on Software Engineering and Methodology (TOSEM).
 
-The author welcomes replicability works and further studies based on this repository. Should there be any technical and academic questions, please do not hesitate to contact the author (liyuechen@buaa.edu.cn).
+MSTCs (i.e., mixed-state test cases) is a new concept proposed in our paper. It suggests preparing and utilizing mixed states as the test inputs for quantum programs, since the mixed states have the power to represent multiple pure states in a probabilistic manner. The empirical evaluation of MSTCs is based on the quantum software development kits Qiskit, and the backend is selected as an ideal simulator. For more details, please refer to our paper.
 
 ## Release Notes
 
 ### Prelude
 
-The codes are updated due to the major revision of a submitted manuscript. (realised at 2025-03-06)
++ v1: The code was updated due to the major revision of a submitted manuscript (released at 2025-03-06).
++ v2: This repository was refactored and updated for better replicability, where the raw experimental results reported in the paper are provided as well. (released at 2025-05-16).
 
-This repository is promised to keep iterating until the possible publication of the manuscript.
+### Reported changes 
 
-### Changes
+#### v1
 
 + Add a new folder `Linear Amplitude Function` corresponding to the newly introduced object program.
 + Add `xxx_defect6.py` for each object program folder, because of a newly included buggy version.
@@ -21,6 +22,13 @@ This repository is promised to keep iterating until the possible publication of 
 + Part of the codes are slightly reconstructed.
 
 `xxx` is denoted as one of `Id`, `comp`, `pauli`, `amplitude`, `quad`, `qft` and `adder`.
+
+#### v2
+
++ Refactor some code in the previous repository.
++ All the previous files for implementation are in the folder `code`.
++ The two notebooks, `drawing_figures.ipynb` and `motivational_example.ipynb`, are added for data analysis and virtualization.
++ The raw data and figures corresponding to empirical studies are included in the folder `data`.
 
 ## Requirements
 
