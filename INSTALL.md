@@ -8,6 +8,12 @@ conda activate mstcs
 
 conda install --file requirements.txt
 
-or
+or The following packages are not available from current channels:
 
 pip install -r requirements.txt
+
+
+
+
+
+sudo docker pull ghcr.io/nahidanahida/mstcs-image:latest
