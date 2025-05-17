@@ -1,10 +1,10 @@
-# Badges
+# ACM Badges
 
-We aim for our artifact to be available, functional, and reusable.
+I aim for the artifact to be available, functional, and reusable.
 
 ## Available
 
-The artifacts is available in this Github repository and archived on Zenodo. For future research of software engineering community, we use an open-source `MIT` license.
+The artifacts is available in this Github repository and archived on Zenodo. For future research of software engineering community, an open-source `MIT` license is used.
 
 ## Functional
 
