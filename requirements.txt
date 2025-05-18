@@ -1,4 +1,4 @@
-numpy==2.1.2
+numpy
 qiskit==0.46.2
 qiskit_aer==0.13.3
 qiskit_terra==0.46.2

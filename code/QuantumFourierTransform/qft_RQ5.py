@@ -122,8 +122,8 @@ def testing_process_MSTCs_1MS(program_version, if_swap_list, inputs_list,
                                 total_failures / test_cases / repeats])
 
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir,
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ5",
@@ -231,8 +231,8 @@ def testing_process_MSTCs_2MS(program_version, if_swap_list, inputs_list,
                                 total_failures / test_cases / repeats])
         
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir,
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ5",
@@ -298,8 +298,8 @@ def testing_process_PSTCs(program_version, n, if_swap_list, shots_list, repeats=
                                 total_failures / test_cases / repeats])
   
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir, 
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ5",

@@ -97,8 +97,8 @@ def testing_process_PSTCs(program_version, n_list, if_swap_list, repeats=20):
                                 pre_time / num_classical_inputs / repeats])
     
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir, 
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ1",
@@ -174,8 +174,8 @@ def testing_process_MSTCs(program_version, n_list, if_swap_list, mode, repeats=2
                                 pre_time / num_classical_inputs / repeats])
     
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir, 
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ1",

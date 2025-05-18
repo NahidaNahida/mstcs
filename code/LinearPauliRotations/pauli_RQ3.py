@@ -93,8 +93,8 @@ def testing_process_PSTCs(program_version, n_list, slop_list, offset_list, repea
         recorded_result.append([n, test_cases, total_failures / test_cases / repeats])
   
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir,
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ3",
@@ -163,8 +163,8 @@ def testing_process_MSTCs(program_version, n_list, slop_list, offset_list, repea
         recorded_result.append([n, test_cases, total_failures / test_cases / repeats])
  
     # save the data
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir, 
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ3",

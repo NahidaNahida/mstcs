@@ -247,8 +247,8 @@ if __name__ == '__main__':
 
     # directory path
     program_name = 'QFT'
-    current_dir = os.getcwd()
-    saving_path = os.path.join(current_dir, 
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    saving_path = os.path.join(root_dir, 
                                "data", 
                                "raw_data_for_empirical_results",
                                "RQ4",
