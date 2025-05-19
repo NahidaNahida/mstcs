@@ -19,8 +19,8 @@ def main():
     parser = argparse.ArgumentParser(description='Run a specific RQ script from a program directory.')
     parser.add_argument('program', help='The full name of object program, ' \
     '(i.e., Identity, IntegerComparator, LinearAmplitudeFunction, LinearPauliRotations, QuadraticForm,' \
-    'QuantumFourierTransform, and WeightedAdder)')
-    parser.add_argument('RQ', help='The name of the search question (i.e., RQ1, RQ2, RQ3, RQ4, RQ5, and RQ6)')
+    'QuantumFourierTransform, and WeightedAdder).')
+    parser.add_argument('RQ', help='The name of the research question (i.e., RQ1, RQ2, RQ3, RQ4, RQ5, and RQ6).')
 
     args = parser.parse_args()
     full_name = args.program

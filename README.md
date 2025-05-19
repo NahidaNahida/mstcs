@@ -1,44 +1,45 @@
-# mstcs
+# mstcs 
+MSTCs (i.e., mixed-state test cases) is a new concept proposed in our paper. It suggests preparing and utilizing mixed states as the test inputs for quantum programs, since the mixed states have the power to represent multiple pure states in a probabilistic combination. Therefore, an MSTC demonstrates a higher input domain coverage than a PSTC (i.e., pure-state test cases) that are widely discussed in existing works, thereby contributing to the test effectiveness and efficiency. The empirical evaluation of MSTCs is based on the quantum software development kits Qiskit, and the backend is selected as an ideal simulator. For more details, please refer to our paper.
+
+## Publication
+
 This repository includes the all code and data involved in the paper "*Preparation and Utilization of Mixed States for Testing Quantum Programs*" that has been accepted as a journal-first paper at ACM Transactions on Software Engineering and Methodology (TOSEM).
 
-MSTCs (i.e., mixed-state test cases) is a new concept proposed in our paper. It suggests preparing and utilizing mixed states as the test inputs for quantum programs, since the mixed states have the power to represent multiple pure states in a probabilistic manner. The empirical evaluation of MSTCs is based on the quantum software development kits Qiskit, and the backend is selected as an ideal simulator. For more details, please refer to our paper.
+## Steps for Replication
 
-## Release Notes
+### Getting Started
 
-### Prelude
+1. Use the following commend line to clone this repository.
 
-+ v1: The code was updated due to the major revision of a submitted manuscript (released at 2025-03-06).
-+ v2: This repository was refactored and updated for better replicability, where the raw experimental results reported in the paper are provided as well. (released at 2025-05-16).
+   ```
+   git clone https://github.com/NahidaNahida/mstcs.git
+   ```
 
-### Reported changes 
+2. Set up the environment instructed by [INSTALL.md](https://github.com/NahidaNahida/mstcs/blob/main/INSTALL.md).
 
-#### v1
+Note: We also provide an available [docker image](https://github.com/NahidaNahida/mstcs/pkgs/container/mstcs-container) with Linux/amd64, which will contain all you need to run this artifact.
 
-+ Add a new folder `Linear Amplitude Function` corresponding to the newly introduced object program.
-+ Add `xxx_defect6.py` for each object program folder, because of a newly included buggy version.
-+ `xxx_RQ1.py` is updated to record the time for state preparation.
-+ The maximum of classical inputs $n$ in `xxx_RQ1.py` and `xxx_RQ3.py` increase to 6.
-+ `xxx_versions_info.md` adds the description for complexity that is derived from the corresponding `xxx_circuit_info.py`.
-+ Part of the codes are slightly reconstructed.
+### Running for RQs
 
-`xxx` is denoted as one of `Id`, `comp`, `pauli`, `amplitude`, `quad`, `qft` and `adder`.
-
-#### v2
-
-+ Refactor some code in the previous repository.
-+ All the previous files for implementation are in the folder `code`.
-+ The two notebooks, `drawing_figures.ipynb` and `motivational_example.ipynb`, are added for data analysis and virtualization.
-+ The raw data and figures corresponding to empirical studies are included in the folder `data`.
-
-## Requirements
+We offer a running example to replicate the empirical results for involved object programs and research questions. First, change the directory to `code` (via `cd code`) and run the following commend
 
 ```
-numpy==2.1.2
-qiskit==0.46.2
-qiskit_aer==0.13.3
-qiskit_terra==0.46.2
-scipy==1.14.1
+python run.py PROGRAM RQ
 ```
+
+where, 
+
++ `PROGRAM`:  The full name of object program (i.e., `Identity`, `IntegerComparator`, `LinearAmplitudeFunction`, `LinearPauliRotations`, `QuadraticForm`, `QuantumFourierTransform`, and `WeightedAdder`).
++ `RQ`: The name of the research question (i.e., `RQ1`, `RQ2`, `RQ3`, `RQ4`, `RQ5`, and `RQ6`).
+
+The yielded results (stored as a `.csv` file) are saved to `./data/raw_data_for_empirical_results/RQ/PROGRAM` automatically.
+
+### Data Analysis
+
+
+
+
+## Documentation of Components
 
 ## Folders for testing the object programs
 

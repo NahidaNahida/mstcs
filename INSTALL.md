@@ -1,75 +1,57 @@
-Directly install
+# Setup Environment
 
+## Anaconda
 
+This manner employs Anaconda to create a virtual environment manually. First, we create an environment named `mstc` with `python=3.11.0`.
 
 ```
-git clone https://github.com/NahidaNahida/mstcs.git
-```
-
-create the environment 
-
-sudo apt install python3.11-venv
-
-
-
-sudo apt install virtualenv 
-
-virtualenv -p python3.11 mstcs
-
-source mstcs/bin/activate
-
-cd the current directory path
-
-
-
-
-
-
-
-Python 3.11.0
-
 conda create --name mstcs python=3.11.0
+```
 
+Then, activate it through
+
+```
 conda activate mstcs
+```
 
+Upon changing directory to `mstcs`,  download the package based on the provided [requirements.txt](https://github.com/NahidaNahida/mstcs/blob/main/requirements.txt),
+
+```
 conda install --file requirements.txt
+```
 
-or The following packages are not available from current channels:
+If some packages are not available from current channels, we can try `pip install` as a compromised solution.
 
+```
 pip install -r requirements.txt
+```
 
+Congratulations! You are ready to run the code and replicate the results.
 
+## Docker
 
+As an alternative, this artifact also has the docker image available, such that the docker container can be directly used to replicate the environment. First, we use docker to pull the package by
 
+```
+docker pull ghcr.io/nahidanahida/mstcs-container:latest
+```
 
-sudo docker pull ghcr.io/nahidanahida/mstcs-image:latest
+Then, start the container with a volume mount that binds the target directory (i.e., the cloned folder `mstcs`) to a path inside the container.
 
+```
+docker run -it --platform linux/amd64 --name mstcs-container -v "HOST_PATH:CONTAINER_PATH" ghcr.io/nahidanahida/mstcs-container:latest /bin/bash
+```
 
+where, 
 
++ `HOST_PATH`: The directory path of the cloned `mstcs`.
++ `CONTAINER_PATH`: The path set for the container (e.g., `/app`).
 
+Congratulations! You are ready to run the code and replicate the results.
 
+By the way, if the image has already existed, we can run the following commend to step into the container.
 
-
-
-
-CONDA create
-
-conda create -n mstcs_replicated python=3.11.0 -c conda-forge
-
-
-
-
-
-
-
-run
-
-python run.py PROGRAM RQ
-
-  program     The full name of object program
-  RQ          The name of the search question
-
-
-
-
-
+```
+docker start mstcs-container
+docker exec -it mstcs-container /bin/bash
+```
