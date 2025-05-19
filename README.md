@@ -5,7 +5,7 @@ MSTCs (i.e., mixed-state test cases) is a new concept proposed in our paper. It 
 
 This repository includes the all code and data involved in the paper "*Preparation and Utilization of Mixed States for Testing Quantum Programs*" that has been accepted as a journal-first paper at ACM Transactions on Software Engineering and Methodology (TOSEM).
 
-The archived version of this artifact in [https://zenodo.org/records/15462299](https://zenodo.org/records/15462299).
+The archived version of this artifact can be found in [https://zenodo.org/records/15462299](https://zenodo.org/records/15462299).
 
 ## Steps for Replication
 
