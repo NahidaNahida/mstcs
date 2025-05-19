@@ -39,7 +39,7 @@ docker pull ghcr.io/nahidanahida/mstcs-container:latest
 Then, start the container with a volume mount that binds the target directory (i.e., the cloned folder `mstcs`) to a path inside the container.
 
 ```
-docker run -it --platform linux/amd64 --name mstcs-container -v "HOST_PATH:CONTAINER_PATH" ghcr.io/nahidanahida/mstcs-container:latest /bin/bash
+docker run -p 8888:8888 -it --platform linux/amd64 --name mstcs-container -v "HOST_PATH:CONTAINER_PATH" ghcr.io/nahidanahida/mstcs-container:latest /bin/bash
 ```
 
 where, 
