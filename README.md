@@ -85,7 +85,9 @@ We present all the raw data in the folder `data`. There are four folders within 
 There is the documentation of some specific functions.
 
 + `data_convertion.py`: This file is used for preprocessing of data.
-+ `generate_numbers(n, m)`:  Generate all the n-digit m-ary numbers and store them at corresponding lists.
+
+  + `generate_numbers(n, m)`:  Generate all the n-digit m-ary numbers and store them at corresponding lists.
+
   + `output_prob(counts, n)`: The list of measurement results is transformed into corresponding probability.
 
 + `preparation_circuits.py`: This file includes several functions related to the quantum circuits for the preparation of control states and the controlled preparation of mixed states. These functions are mainly used for the experiments of RQ2 and RQ4. For more details, please refer to this file.
@@ -95,4 +97,5 @@ There is the documentation of some specific functions.
 + `repeat_until_success.py`: It is used to achieve the repeat-until-success (RUS) structure using Qiskit. The RUS structure is discussed in Section 6.2.1 (Separable Control States) of the manuscript.
 
 + `test_oracle.py`: The test oracle is included in this file. More particularly, output probability oracle (OPO) is employed for MSTCs, and the Mann-Whitney U test compares two sample groups.
+
 + `run.py`: The separate files for running the required experiment.
