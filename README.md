@@ -9,7 +9,7 @@ This repository includes the all code and data involved in the paper "*Preparati
 Li Y, Cai K Y, Yin B. Preparation and Utilization of Mixed States for Testing Quantum Programs[J]. ACM Transactions on Software Engineering and Methodology, 2025. 
 ```
 
-Paper link: [https://dl.acm.org/doi/abs/10.1145/3736757][https://dl.acm.org/doi/abs/10.1145/3736757].
+Paper link: [https://dl.acm.org/doi/abs/10.1145/3736757](https://dl.acm.org/doi/abs/10.1145/3736757).
 
 The archived version of this artifact can be found in [https://zenodo.org/records/15462299](https://zenodo.org/records/15462299).
 
