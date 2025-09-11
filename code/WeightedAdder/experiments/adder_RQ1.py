@@ -12,40 +12,12 @@ from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 from preparation_circuits import bit_controlled_preparation_1MS, qubit_controlled_preparation_1MS
 
-from adder_defect1 import WeightedAdder_defect1
-from adder_defect2 import WeightedAdder_defect2
-from adder_defect3 import WeightedAdder_defect3
-from adder_defect4 import WeightedAdder_defect4
-from adder_defect5 import WeightedAdder_defect5
-from adder_defect6 import WeightedAdder_defect6
-
 import math
 import time
 
-def version_selection(program_name, program_version):
-    '''
-        select the program version to be tested
-
-        Input variable:
-            + program_name       [str] e.g. "IntegerComparator"
-            + program_version    [str] e.g. "v1", "v2", "v3"
-    
-    '''
-    if program_version[0] == "v":
-        function_name = program_name + '_defect' + program_version[1:]
-    elif program_version == 'raw':
-        function_name = program_name
-    else:
-        return f"Invalid program version."
-
-    if function_name in globals():
-        func = globals()[function_name]
-        return func
-    else:
-        return f"Function '{function_name}' not found."
+program_name = 'WeightedAdder'
 
 def testing_process_PSTCs(program_version, n_list, weights_dict, repeats=20):
-    program_name = 'WeightedAdder'
     default_shots = 1024
     candidate_initial_states = [0, 1]
 

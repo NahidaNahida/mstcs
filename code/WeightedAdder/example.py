@@ -15,7 +15,7 @@ from test_oracle import OPO_UTest
 from circuit_execution import circuit_execution
 from preparation_circuits import bit_controlled_preparation_1MS, qubit_controlled_preparation_1MS
 
-from adder import WeightedAdder
+from code.WeightedAdder.programs.adder import WeightedAdder
 from adder_defect1 import WeightedAdder_defect1
 from adder_defect2 import WeightedAdder_defect2
 from adder_defect3 import WeightedAdder_defect3
