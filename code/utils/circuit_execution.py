@@ -1,12 +1,12 @@
-from qiskit import transpile
+from qiskit import QuantumCircuit, transpile
 from qiskit_aer import Aer
 
-def circuit_execution(qc, shots):
+def circuit_execution(qc: QuantumCircuit, shots: int) -> dict:
     """
         Execute the quantum circuit with given shots, and then return the measurement results.
     """
     backend = Aer.get_backend('qasm_simulator')
-    executedQC = transpile(qc, backend)
-    count= backend.run(executedQC, shots=shots).result().get_counts()
+    executed_circuit = transpile(qc, backend)
+    count= backend.run(executed_circuit, shots=shots).result().get_counts()
     dict_counts = count.int_outcomes()
     return dict_counts

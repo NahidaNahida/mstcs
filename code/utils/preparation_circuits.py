@@ -3,7 +3,8 @@ from qiskit.circuit import QuantumCircuit
 from qiskit.circuit.library import RYGate 
 from qiskit import QuantumCircuit
 import numpy as np
-from circuit_execution import circuit_execution
+
+from .circuit_execution import circuit_execution
 
 def separable_control_state_preparation(theta_list):
     '''
