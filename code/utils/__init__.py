@@ -3,12 +3,20 @@
 from .data_convertion import generate_numbers
 from .test_oracle import OPO_UTest
 from .circuit_execution import circuit_execution
-from .preparation_circuits import bit_controlled_preparation_1MS, qubit_controlled_preparation_1MS
-from .defect_loader import loader_main
+from .preparation_circuits import (
+    bit_controlled_preparation_1MS, 
+    qubit_controlled_preparation_1MS,
+    bit_controlled_preparation_2MS,
+    qubit_controlled_preparation_2MS,
+    bit_controlled_preparation_MPS,
+    qubit_controlled_preparation_MPS,
+    separable_control_state_preparation,
+    entangled_control_state_preparation
+)
+from .defect_loader import import_versions, get_target_version
 from .csv_saving import csv_saving, RQ_saving_dir
-from .mixed_state_config import pure_state_distribution, covered_pure_states
-
-from qiskit import QuantumCircuit
+from .json_loading import rep_mode_selection
+from .repeat_until_success import repeat_until_success, generate_invalid_numbers
 
 __all__ = [
     "generate_numbers",
@@ -16,10 +24,17 @@ __all__ = [
     "circuit_execution",
     "bit_controlled_preparation_1MS",
     "qubit_controlled_preparation_1MS",
-    "loader_main",
+    "import_versions",
+    "get_target_version",
     "csv_saving",
-    "QuantumCircuit",
     "RQ_saving_dir",
-    "pure_state_distribution",
-    "covered_pure_states"
+    "rep_mode_selection",
+    "separable_control_state_preparation",
+    "entangled_control_state_preparation",
+    "bit_controlled_preparation_2MS",
+    "qubit_controlled_preparation_2MS",
+    "bit_controlled_preparation_MPS",
+    "qubit_controlled_preparation_MPS",
+    "repeat_until_success",
+    "generate_invalid_numbers"
 ]

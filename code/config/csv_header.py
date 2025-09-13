@@ -1,3 +1,4 @@
 HEADER_DICT = {
-    "RQ1": ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)']
+    "RQ1": ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)'],
+    "RQ2": ['test_suite', 'mixed_pre_mode', '# test_cases', 'ave_time']
 }

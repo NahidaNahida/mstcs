@@ -22,7 +22,10 @@ def RQ_saving_name(
     program_ver: str,
     task_name: str,
 ) -> str:
-    return f"{rq_name}_{program_name}_{program_ver}_{task_name}.csv"
+    if task_name == "":
+        return f"{rq_name}_{program_name}_{program_ver}.csv"
+    else:
+        return f"{rq_name}_{program_name}_{program_ver}_{task_name}.csv"
 
 def csv_saving(
     rq_name: str,
@@ -33,13 +36,20 @@ def csv_saving(
     task_name: str,
     data_list: list[list[float]],
 ) -> None:
+    # Ensure the save directory exists
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Generate the CSV file name
     file_name = RQ_saving_name(rq_name, program_name, program_ver, task_name)
-    with open(os.path.join(save_dir, file_name), mode='w', newline='') as file:
+    file_path = os.path.join(save_dir, file_name)
+
+    # Write CSV
+    with open(file_path, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(header)
-        for data in data_list:
-            writer.writerow(data)
-    print(f"{task_name} is done!")
+        writer.writerows(data_list)  # more concise than looping
+
+    print(f"{task_name} is done! Saved at {file_path}")
 
 
 if __name__ == "__main__":

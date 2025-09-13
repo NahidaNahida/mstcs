@@ -1,7 +1,7 @@
 import os
 
 # ========================================================
-# Default
-_PROGRAM_NAME = 'WeightedAdder'
-_DEFAULT_SHOTS = 1024
-_initial_states = [0, 1]
+# Default configurations
+PROGRAM_NAME = 'WeightedAdder'
+DEFAULT_SHOTS = 1024
+initial_states = [0, 1]

@@ -8,14 +8,15 @@ import time
 from typing import Literal
 from ..config import FULL2ABB_MAPPING
 
-def load_program_versions(
+def import_versions(
     program_name: Literal[
         "Identity", 
         "IntegerComparator",
         "LinearAmplitudeFunction",
         "LinearPauliRotations",
         "QuadraticForm",
-        "QuantumFourierTransform"
+        "QuantumFourierTransform",
+        "WeightedAdder"
     ], 
     program_path: str
 ) -> dict:
@@ -67,7 +68,7 @@ def load_program_versions(
     return version_dict
 
 
-def get_program_version(version_dict: dict, version: str | int):
+def get_target_version(version_dict: dict, version: str | int):
     """
     Return the corresponding class (e.g., WeightedAdder) based on the given version.
 
@@ -93,10 +94,6 @@ def get_program_version(version_dict: dict, version: str | int):
     # Return the corresponding class from the dictionary
     return version_dict[version]
 
-def loader_main(program_name: str, program_path: str, version: str | int):
-    version_dict = load_program_versions(program_name, program_path)
-    exe_program_ver = get_program_version(version_dict, version)
-    return exe_program_ver
 
 if __name__ == "__main__":
     # Unit testing of ``load_program_versions``
@@ -105,12 +102,13 @@ if __name__ == "__main__":
     buggy_version_dir = "code\\testing\\WeightedAdder\\programs"
 
     start_time_1 = time.time()
-    ver_dict = load_program_versions(program_name, buggy_version_dir)
+    ver_dict = import_versions(program_name, buggy_version_dir)
     print(ver_dict)     # Check the result dictionary
     dura_time_1 = time.time() - start_time_1
 
     # Test the time
+    # We expected ``dura_time_2 < dura_time_1`` significantly.
     start_time_2 = time.time()
-    _ = load_program_versions(program_name, buggy_version_dir)
+    _ = import_versions(program_name, buggy_version_dir)
     dura_time_2 = time.time() - start_time_2
     print(f"time_1: {dura_time_1}, time_2: {dura_time_2}")

@@ -6,9 +6,9 @@ from ..utils.adder_specification import (
 )
 
 from ..config.exp_config import (
-    _DEFAULT_SHOTS as default_shots,
-    _PROGRAM_NAME as program_name,
-    _initial_states as candidate_initial_states
+    DEFAULT_SHOTS as default_shots,
+    PROGRAM_NAME as program_name,
+    initial_states as candidate_initial_states
 )
 
 __all__ = [

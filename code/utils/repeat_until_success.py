@@ -1,7 +1,8 @@
 import random
-from circuit_execution import circuit_execution
 import copy
 from collections import defaultdict
+
+from .circuit_execution import circuit_execution
 
 def repeat_until_success(qc, shots, invalid_list):
     '''

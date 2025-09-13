@@ -1,6 +1,6 @@
 import numpy as np
 
-def generate_numbers(n, m):
+def generate_numbers(n: int, m: int):
     '''
         Generate all the n-digit m-ary numbers and store them at corresponding lists
 
