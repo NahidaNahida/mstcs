@@ -1,49 +1,46 @@
-from qiskit import QuantumCircuit
- 
 import numpy as np
-import csv
+import os
+import math, time
+from typing import Literal
 
-import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from qiskit import QuantumCircuit
 
-from data_convertion import generate_numbers
-from adder_specification import PSTC_specification, MSTC_specification
-from test_oracle import OPO_UTest
-from circuit_execution import circuit_execution
-from preparation_circuits import *
-from repeat_until_success import *
+from ....utils import (
+    import_versions,
+    get_target_version, 
+    circuit_execution, 
+    OPO_UTest,
+    csv_saving,
+    RQ_saving_dir,
+    bit_controlled_preparation_1MS,
+    qubit_controlled_preparation_1MS,
+    bit_controlled_preparation_2MS,
+    qubit_controlled_preparation_2MS,
+    separable_control_state_preparation,
+    entangled_control_state_preparation,
+    rep_mode_selection
+)
 
-from adder_defect1 import WeightedAdder_defect1
-from adder_defect2 import WeightedAdder_defect2
-from adder_defect3 import WeightedAdder_defect3
-from adder_defect4 import WeightedAdder_defect4
-from adder_defect5 import WeightedAdder_defect5
-from adder_defect6 import WeightedAdder_defect6
+from ....config import (
+    HEADER_DICT, 
+    covered_pure_states
+)
 
-import math
-import time
+from . import PSTC_specification, MSTC_specification
+from . import default_shots, program_name, exe_repeats
 
-def version_selection(program_name, program_version):
-    '''
-        select the program version to be tested
+# =================================================================
+# Configurations varying with RQs
+_RQ_NAME = "RQ5"
+header = HEADER_DICT[_RQ_NAME]
 
-        Input variable:
-            + program_name       [str] e.g. "IntegerComparator"
-            + program_version    [str] e.g. "v1", "v2", "v3"
-    
-    '''
-    if program_version[0] == "v":
-        function_name = program_name + '_defect' + program_version[1:]
-    elif program_version == 'raw':
-        function_name = program_name
-    else:
-        return f"Invalid program version."
+# Get the file directory
+current_dir = os.path.dirname(__file__)
+version_dir = os.path.join(os.path.dirname(current_dir), "programs")
+config_dir = os.path.join(os.path.dirname(current_dir), "config")
 
-    if function_name in globals():
-        func = globals()[function_name]
-        return func
-    else:
-        return f"Function '{function_name}' not found."
+# Import the program versions under the same directory
+version_dict = import_versions(program_name, version_dir)
         
 def testing_process_MSTCs_1MS(program_version, weights_dict, inputs_list, 
                               mixed_pre_mode, shots_list, repeats=20):

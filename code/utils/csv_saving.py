@@ -2,14 +2,21 @@ import csv, os
 
 def RQ_saving_dir(
     rq_name: str | int,
-    program_name: str
+    program_name: str,
+    rep_mode: str,
 ) -> str:
     if isinstance(rq_name, int):
         rq_name = f"RQ{rq_name}"
     root_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    
+    if rep_mode == "toy":
+        folder_name = f"data({rep_mode})"
+    else:
+        folder_name = "data"
+
     saving_path = os.path.join(
         root_dir,
-        "data",
+        folder_name,
         "raw_data_for_empirical_results",
         rq_name,
         program_name
@@ -54,9 +61,11 @@ def csv_saving(
 
 if __name__ == "__main__":
     # Unit testing of ``RQ_saving_path``
+    # Run ``python code/utils/csv_saving.py``
     expected_rq = "RQ3"
     expected_program = "QuantumFourierTransform"
-    expected_dir = "data\\raw_data_for_empirical_results\\RQ3\\QuantumFourierTransform"
-    
-    res_dir = RQ_saving_dir(expected_rq, expected_program)
+    rep_mode = "toy"
+    expected_dir = "data(toy)\\raw_data_for_empirical_results\\RQ3\\QuantumFourierTransform"
+
+    res_dir = RQ_saving_dir(expected_rq, expected_program, rep_mode)
     assert expected_dir in res_dir, "Wrong directory!"

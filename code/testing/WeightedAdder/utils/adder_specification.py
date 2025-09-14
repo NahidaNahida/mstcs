@@ -1,6 +1,6 @@
 import numpy as np
 
-def _PSTC_specification(s, qList, lambdaList):
+def PSTC_specification(s, qList, lambdaList):
     # qList is a binary list: q_{0} -> q_{n-1}
     # lambdaList is a weight list: lambda_{0} -> lambda_{n-1} 
     expProbs = (np.zeros(2 ** s)).tolist()
@@ -10,7 +10,7 @@ def _PSTC_specification(s, qList, lambdaList):
     expProbs[expRes] = 1
     return expProbs
 
-def _MSTC_specification(inputNums, inputProbs, n, s, lambdaList):    
+def MSTC_specification(inputNums, inputProbs, n, s, lambdaList):    
     expProbs = (np.zeros(2 ** s)).tolist()
     for decimal_number in inputNums:
         binary_string = bin(decimal_number)[2:].zfill(n)

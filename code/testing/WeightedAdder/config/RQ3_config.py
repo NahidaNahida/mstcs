@@ -48,8 +48,8 @@ config_dict = {
       }
    },
    "toy": {
-      "versions": ["v4"],
-      "qubit_list": [3],
-      "weight_dict": {"qubit_num=3": [[2, 0, 2]]}         
+      "versions": ["v2"],
+      "qubit_list": [4],
+      "weight_dict": {"qubit_num=4": [[1, 2, 0, 1]]}         
    }
 }   

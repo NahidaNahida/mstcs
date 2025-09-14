@@ -1,20 +1,54 @@
 # code\WeightedAdder\experiments\__init__.py
 
-from ..utils.adder_specification import (
-    _PSTC_specification as PSTC_specification, 
-    _MSTC_specification as MSTC_specification
+from ....utils import (
+    generate_numbers, 
+    import_versions,
+    get_target_version, 
+    circuit_execution, 
+    OPO_UTest,
+    csv_saving,
+    RQ_saving_dir,
+    bit_controlled_preparation_1MS,
+    qubit_controlled_preparation_1MS,
+    rep_mode_selection
 )
 
-from ..config.exp_config import (
-    DEFAULT_SHOTS as default_shots,
-    PROGRAM_NAME as program_name,
-    initial_states as candidate_initial_states
+from ..utils import (
+    testing_process_PSTCs,
+    testing_process_MSTCs,
+    testing_process_MSTCs_1MS,
+    testing_process_MSTCs_2MS,
+    testing_process_MSTCs_MPS
 )
+
+from ....config import HEADER_DICT
+from ..config import program_name, default_shots, exe_repeats
 
 __all__ = [
-    "default_shots",
+    # Global variable in the overall repository
+    "HEADER_DICT", 
+
+    # Global variable within the tested program
     "program_name",
-    "candidate_initial_states",
-    "PSTC_specification",
-    "MSTC_specification"
+    "default_shots",
+    "exe_repeats",
+
+    # Utilizations in the overall repository
+    "generate_numbers", 
+    "import_versions",
+    "get_target_version", 
+    "circuit_execution", 
+    "OPO_UTest",
+    "csv_saving",
+    "RQ_saving_dir",
+    "bit_controlled_preparation_1MS",
+    "qubit_controlled_preparation_1MS",
+    "rep_mode_selection",
+
+    # Utilizations within the tested programs
+    "testing_process_PSTCs",
+    "testing_process_MSTCs",
+    "testing_process_MSTCs_1MS",
+    "testing_process_MSTCs_2MS",
+    "testing_process_MSTCs_MPS"
 ]
