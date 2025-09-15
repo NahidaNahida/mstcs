@@ -1,4 +1,5 @@
-from typing import Literal
+from typing import Literal, Callable
+from functools import partial
 
 from . import (
     program_name,
@@ -29,15 +30,15 @@ def _required_data(recorded_list: list[dict]) -> list[list]:
     ]
     return recorded_result
 
-def _RQ_running_MSTCs_1MS(
+def _RQ_running_MSTC_core(
     program_version: str, 
     weights_dict: dict, 
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
-    repeats: int
+    repeats: int,
+    process_func: Callable
 ) -> list:
-    
-    recorded_list = testing_process_MSTCs_1MS(
+    recorded_list = process_func(
         program_version,
         weights_dict,
         inputs_list,
@@ -47,41 +48,10 @@ def _RQ_running_MSTCs_1MS(
     )
     return _required_data(recorded_list)
 
-def _RQ_running_MSTCs_2MS(
-    program_version: str, 
-    weights_dict: dict, 
-    inputs_list: list, 
-    mixed_pre_mode: Literal["bits", "qubits"], 
-    repeats: int
-) -> list:
-
-    recorded_list = testing_process_MSTCs_2MS(
-        program_version,
-        weights_dict,
-        inputs_list,
-        mixed_pre_mode,
-        default_shots,
-        repeats
-    )
-    return _required_data(recorded_list)
-
-def _RQ_running_MSTCs_MPS(
-    program_version: str, 
-    weights_dict: dict, 
-    inputs_list: list, 
-    mixed_pre_mode: Literal["bits", "qubits"], 
-    repeats: int
-):
- 
-    recorded_list = testing_process_MSTCs_MPS(
-        program_version,
-        weights_dict,
-        inputs_list,
-        mixed_pre_mode,
-        default_shots,
-        repeats
-    )   
-    return _required_data(recorded_list)
+# === Concrete instantiation, using functools.partial to bind process_func ===
+_RQ_running_MSTCs_1MS = partial(_RQ_running_MSTC_core, process_func=testing_process_MSTCs_1MS)
+_RQ_running_MSTCs_2MS = partial(_RQ_running_MSTC_core, process_func=testing_process_MSTCs_2MS)
+_RQ_running_MSTCs_MPS = partial(_RQ_running_MSTC_core, process_func=testing_process_MSTCs_MPS)
 
 if __name__ == '__main__':
     import argparse

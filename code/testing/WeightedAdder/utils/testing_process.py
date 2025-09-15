@@ -156,7 +156,8 @@ def testing_process_PSTCs(
         dura_time = time.time() - start_time
 
         recorded_result.append({
-            "num_qubits": n, 
+            "num_qubits": n,
+            "num_shots": shots,
             "num_test_cases": test_cases,
             "ave_faults": total_failures / test_cases / repeats,
             "ave_exe_time": dura_time / num_classical_inputs / repeats, 
@@ -303,7 +304,8 @@ def testing_process_MSTCs(
 
         dura_time = time.time() - start_time
         recorded_result.append({
-            "num_qubits": n, 
+            "num_qubits": n,
+            "num_shots": shots,
             "num_test_cases": test_cases,
             "ave_faults": total_failures / test_cases / repeats,
             "ave_exe_time": dura_time / num_classical_inputs / repeats, 
@@ -429,7 +431,8 @@ def testing_process_MSTCs_1MS(
 
         dura_time = time.time() - start_time
         recorded_result.append({            
-            "input_name": input_name, 
+            "input_name": input_name,
+            "num_shots": shots,
             "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
             "ave_exe_time": dura_time / num_classical_inputs / repeats,
@@ -548,7 +551,8 @@ def testing_process_MSTCs_2MS(
 
         dura_time = time.time() - start_time
         recorded_result.append({
-            "input_name": input_name, 
+            "input_name": input_name,
+            "num_shots": shots,
             "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
             "ave_exe_time": dura_time / num_classical_inputs / repeats,
@@ -716,7 +720,8 @@ def testing_process_MSTCs_MPS(
 
         dura_time = time.time() - start_time
         recorded_result.append({            
-            "input_name": input_name, 
+            "input_name": input_name,
+            "num_shots": shots, 
             "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
             "ave_exe_time": dura_time / num_classical_inputs / repeats,
