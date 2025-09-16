@@ -6,6 +6,7 @@ from . import (
     default_shots,
     exe_repeats,
     HEADER_DICT,
+    required_data,
     testing_process_MSTCs_1MS,
     testing_process_MSTCs_2MS,
     testing_process_MSTCs_MPS,
@@ -18,17 +19,6 @@ from . import (
 # Configurations varying with RQs
 _RQ_NAME = "RQ2"
 header = HEADER_DICT[_RQ_NAME]
-
-def _required_data(recorded_list: list[dict]) -> list[list]:
-    recorded_result = [[
-            metadata_dict["input_name"],
-            metadata_dict["controlling_unit"],
-            metadata_dict["num_test_cases"],
-            metadata_dict["ave_exe_time"]
-        ] 
-        for metadata_dict in recorded_list
-    ]
-    return recorded_result
 
 def _RQ_running_MSTC_core(
     program_version: str, 
@@ -46,7 +36,7 @@ def _RQ_running_MSTC_core(
         default_shots,
         repeats
     )
-    return _required_data(recorded_list)
+    return required_data(_RQ_NAME, recorded_list)
 
 # === Concrete instantiation, using functools.partial to bind process_func ===
 _RQ_running_MSTCs_1MS = partial(_RQ_running_MSTC_core, process_func=testing_process_MSTCs_1MS)

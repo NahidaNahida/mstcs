@@ -1,3 +1,5 @@
+# code\testing\WeightedAdder\config\__init__.py
+
 from .exp_config import (
     DEFAULT_SHOTS as default_shots,
     PROGRAM_NAME as program_name,

@@ -29,10 +29,9 @@ def RQ_saving_name(
     program_ver: str,
     task_name: str,
 ) -> str:
-    if task_name == "":
-        return f"{rq_name}_{program_name}_{program_ver}.csv"
-    else:
-        return f"{rq_name}_{program_name}_{program_ver}_{task_name}.csv"
+    task_str = f"_{task_name}" if task_name != "" else ""
+    ver_str = f"_{program_ver}" if program_ver != "" else ""
+    return f"{rq_name}_{program_name}{ver_str}{task_str}.csv"
 
 def csv_saving(
     rq_name: str,

@@ -18,11 +18,9 @@ Notes
 
 import numpy as np
 from typing import Literal
+ 
 
-def pure_state_distribution(
-    qubit_num: int, 
-    mode: Literal["uniform"]
-) -> list:
+def pure_state_distribution(qubit_num: int, mode: Literal["uniform"]) -> list[float]:
     r"""
     Generate a probability distribution over pure states. 
 
@@ -55,18 +53,8 @@ def pure_state_distribution(
         "uniform": list(np.ones(2 ** qubit_num) / (2 ** qubit_num)) 
     }
 
-    return distribution_dict[mode]
-
-def covered_pure_states(
-    qubit_num: int,
-    mode: Literal["all_basis"]
-) -> list:
-    covered_state_dict = {
-        # Cover all the computational basis states given the qubit number
-        "all_basis": list(range(2 ** qubit_num))
-    }
-
-    return covered_state_dict[mode]
+    returned_distribution = distribution_dict[mode]
+    return returned_distribution
 
 def control_qubit_numbers(
     target_num: int,

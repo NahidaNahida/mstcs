@@ -31,7 +31,7 @@ def generate_numbers(n: int, m: int):
 
     return number_list
 
-def output_prob(counts, n):
+def outputdict2probs(counts, n):
     
     """
         The list of measurement results is transformed into corresponding probability
@@ -55,3 +55,16 @@ def output_prob(counts, n):
             prob_dist.append(output_dic[i]/counts.shots())
     prob_dist = np.asarray(prob_dist) / np.sum(prob_dist)
     return prob_dist
+
+def outputdict2samps(dict_counts: dict) -> list[int]:
+    samps = []
+    for (key, value) in dict_counts.items():
+        samps += [key] * value
+    return samps
+
+def covered_pure_states(probs: list[float]) -> list[int]:
+    covered_states = []
+    for idx, prob in enumerate(probs):
+        if prob != 0:
+            covered_states.append(idx)
+    return covered_states

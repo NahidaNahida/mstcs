@@ -5,6 +5,7 @@ from . import (
     program_name,
     exe_repeats,
     HEADER_DICT,
+    required_data,
     testing_process_MSTCs_1MS,
     testing_process_MSTCs_2MS,
     testing_process_PSTCs,
@@ -18,16 +19,6 @@ from . import (
 _RQ_NAME = "RQ5"
 header = HEADER_DICT[_RQ_NAME]
  
-def _required_data(recorded_list: list[dict]) -> list[list]:
-    recorded_result = [[
-            metadata_dict["num_shots"],
-            metadata_dict["ave_exe_time"],
-            metadata_dict["ave_faults"]
-        ] 
-        for metadata_dict in recorded_list
-    ]
-    return recorded_result
-
 def _RQ_running_PSTCs(
     program_version: str, 
     n_list: list[int], 
@@ -45,7 +36,7 @@ def _RQ_running_PSTCs(
             repeats
         )
         recorded_list = recorded_list + temp_list
-    return _required_data(recorded_list)
+    return required_data(_RQ_NAME, recorded_list)
 
 def _RQ_running_MSTC_core(
     program_version: str,
@@ -67,7 +58,7 @@ def _RQ_running_MSTC_core(
             repeats
         )
         recorded_list = recorded_list + temp_list
-    return _required_data(recorded_list)  
+    return required_data(_RQ_NAME, recorded_list)
 
 # === Concrete instantiation, using functools.partial to bind process_func ===
 _RQ_running_MSTCs_1MS = partial(_RQ_running_MSTC_core, process_func=testing_process_MSTCs_1MS)

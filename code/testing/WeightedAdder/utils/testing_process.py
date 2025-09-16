@@ -6,7 +6,9 @@ from typing import Literal
 from qiskit import QuantumCircuit
 
 from ....utils import (
-    generate_numbers, 
+    generate_numbers,
+    covered_pure_states,
+    outputdict2samps, 
     import_versions,
     get_target_version, 
     circuit_execution, 
@@ -23,11 +25,8 @@ from ....utils import (
     entangled_control_state_preparation,
 )
 
-from ....config import (
-    pure_state_distribution, 
-    control_qubit_numbers, 
-    covered_pure_states
-)
+from ....config import pure_state_distribution, control_qubit_numbers
+ 
 
 from . import PSTC_specification, MSTC_specification
 from ..config import program_name, candidate_initial_states 
@@ -139,15 +138,13 @@ def testing_process_PSTCs(
                     dict_counts = circuit_execution(qc, shots)
 
                     # Obtain the samples (measurement results) of the tested program
-                    test_samps = []
-                    for (key, value) in dict_counts.items():
-                        test_samps += [key] * value
+                    test_samps = outputdict2samps(dict_counts)
                     
                     # Generate the samples that follow the expected probability distribution
                     exp_probs = PSTC_specification(s, initial_states, weight)
                     exp_samps = list(np.random.choice(range(2 ** qc.num_clbits), size=shots, p=exp_probs))
 
-                    # derive the test result by nonparametric hypothesis test
+                    # Derive the test result by nonparametric hypothesis test
                     test_result = OPO_UTest(exp_samps, test_samps)
 
                     if test_result == 'fail':
@@ -174,7 +171,6 @@ def testing_process_MSTCs(
     shots: int, 
     repeats: int,
     pure_state_dist: Literal["uniform"] = "uniform",
-    covered_state: Literal["all_basis"] = "all_basis",
     num_controls: Literal["equal"] = "equal"
 ) -> list[dict]:
     """
@@ -243,7 +239,7 @@ def testing_process_MSTCs(
         pure_states_distribution = pure_state_distribution(n, pure_state_dist)
         
         # Cover all the classical states            
-        covered_numbers = covered_pure_states(n, covered_state)
+        covered_numbers = covered_pure_states(pure_states_distribution)
         weights_list = weights_dict[f"qubit_num={n}"]
 
         num_classical_inputs = len(weights_list)
@@ -288,9 +284,7 @@ def testing_process_MSTCs(
                 dict_counts = circuit_execution(qc, shots)
 
                 # Obtain the samples (measurement results) of the tested program
-                test_samps = []
-                for (key, value) in dict_counts.items():
-                    test_samps += [key] * value
+                test_samps = outputdict2samps(dict_counts)
                 
                 # Generate the samples that follow the expected probability distribution
                 exp_probs = MSTC_specification(covered_numbers, pure_states_distribution, n, s, weight)
@@ -320,8 +314,7 @@ def testing_process_MSTCs_1MS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     shots: int, 
-    repeats: int,
-    covered_state: Literal["all_basis"] = "all_basis"
+    repeats: int
 ) -> list[dict]:
     """
     Test a quantum program by covering multiple classical inputs with 
@@ -373,7 +366,7 @@ def testing_process_MSTCs_1MS(
         input_name = inputs["saving_name"]
 
         # Cover all the classical states            
-        covered_numbers = covered_pure_states(n, covered_state)
+        covered_numbers = covered_pure_states(pure_states_distribution)
         weights_list = weights_dict[f"qubit_num={n}"]
 
         num_classical_inputs = len(weights_list)
@@ -415,9 +408,7 @@ def testing_process_MSTCs_1MS(
                 dict_counts = circuit_execution(qc, shots)
 
                 # Obtain the samples (measurement results) of the tested program
-                test_samps = []
-                for (key, value) in dict_counts.items():
-                    test_samps += [key] * value
+                test_samps = outputdict2samps(dict_counts)
                 
                 # Generate the samples that follow the expected probability distribution
                 exp_probs = MSTC_specification(covered_numbers, pure_states_distribution, n, s, weight)
@@ -446,8 +437,7 @@ def testing_process_MSTCs_2MS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"], 
     shots: int,
-    repeats: int,
-    covered_state: Literal["all_basis"] = "all_basis",
+    repeats: int
 ) -> list[dict]:
     """
         Cover a group of classical inputs with two mixed state. Given n,
@@ -484,7 +474,7 @@ def testing_process_MSTCs_2MS(
         MSB_val_list = list(range(len(angle_lists)))
 
         # Cover all the classical states            
-        covered_numbers = covered_pure_states(n, covered_state)
+        covered_numbers = covered_pure_states(pure_states_distribution)
         weights_list = weights_dict[f"qubit_num={n}"]
 
         num_classical_inputs = len(weights_list)
@@ -535,9 +525,7 @@ def testing_process_MSTCs_2MS(
                     dict_counts = circuit_execution(qc, shots)
 
                     # Obtain the samples (measurement results) of the tested program
-                    test_samps = []
-                    for (key, value) in dict_counts.items():
-                        test_samps += [key] * value
+                    test_samps = outputdict2samps(dict_counts)
                     
                     # Generate the samples that follow the expected probability distribution
                     exp_probs = MSTC_specification(covered_numbers, pure_states_distribution, n, s, weight)
@@ -566,8 +554,7 @@ def testing_process_MSTCs_MPS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     shots: int,
-    repeats: int,
-    covered_state: Literal["all_basis"] = "all_basis",
+    repeats: int
 ) -> list[dict]:
     """
     Test a quantum program by covering classical inputs with 
@@ -634,7 +621,7 @@ def testing_process_MSTCs_MPS(
         input_name = inputs["saving_name"]
 
         # Cover all the classical states            
-        covered_numbers = covered_pure_states(n, covered_state)
+        covered_numbers = covered_pure_states(pure_states_distribution)
         weights_list = weights_dict[f"qubit_num={n}"]
 
         num_classical_inputs = len(weights_list)
@@ -712,7 +699,7 @@ def testing_process_MSTCs_MPS(
                             p=exp_probs
                         ))               
                                         
-                    # derive the test result by nonparametric hypothesis test
+                    # Derive the test result by nonparametric hypothesis test
                     test_result = OPO_UTest(exp_samps, test_samps)
 
                     if test_result == 'fail':

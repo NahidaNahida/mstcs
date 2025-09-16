@@ -1,6 +1,6 @@
 # utils/__init__.py
 
-from .data_convertion import generate_numbers
+from .data_convertion import generate_numbers, covered_pure_states, outputdict2samps
 from .test_oracle import OPO_UTest
 from .circuit_execution import circuit_execution
 from .preparation_circuits import (
@@ -20,6 +20,8 @@ from .repeat_until_success import repeat_until_success, generate_invalid_numbers
 
 __all__ = [
     "generate_numbers",
+    "covered_pure_states",
+    "outputdict2samps",
     "OPO_UTest",
     "circuit_execution",
     "bit_controlled_preparation_1MS",

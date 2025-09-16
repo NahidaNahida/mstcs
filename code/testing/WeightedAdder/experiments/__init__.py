@@ -1,4 +1,4 @@
-# code\WeightedAdder\experiments\__init__.py
+# code\testing\WeightedAdder\experiments\__init__.py
 
 from ....utils import (
     generate_numbers, 
@@ -21,12 +21,13 @@ from ..utils import (
     testing_process_MSTCs_MPS
 )
 
-from ....config import HEADER_DICT
+from ....config import HEADER_DICT, required_data
 from ..config import program_name, default_shots, exe_repeats
 
 __all__ = [
     # Global variable in the overall repository
     "HEADER_DICT", 
+    "required_data",
 
     # Global variable within the tested program
     "program_name",

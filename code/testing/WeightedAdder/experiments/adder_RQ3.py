@@ -5,6 +5,7 @@ from . import (
     default_shots,
     exe_repeats,
     HEADER_DICT,
+    required_data,
     testing_process_PSTCs,
     testing_process_MSTCs,
     rep_mode_selection,
@@ -16,16 +17,6 @@ from . import (
 # Configurations varying with RQs
 _RQ_NAME = "RQ3"
 header = HEADER_DICT[_RQ_NAME]
-
-def _required_data(recorded_list: list[dict]) -> list[list]:
-    recorded_result = [[
-            metadata_dict["num_qubits"],
-            metadata_dict["num_test_cases"],
-            metadata_dict["ave_faults"]
-        ] 
-        for metadata_dict in recorded_list
-    ]
-    return recorded_result
  
 def _RQ_running_PSTCs(
     program_version: str, 
@@ -41,7 +32,7 @@ def _RQ_running_PSTCs(
         default_shots,
         repeats
     )
-    return _required_data(recorded_list)
+    return required_data(_RQ_NAME, recorded_list)
 
 def _RQ_running_MSTCs(
     program_version: str, 
@@ -59,7 +50,7 @@ def _RQ_running_MSTCs(
         default_shots,
         repeats
     )
-    return _required_data(recorded_list)
+    return required_data(_RQ_NAME, recorded_list)
 
 if __name__ == '__main__':
     import argparse
