@@ -1,0 +1,1 @@
+# mycode\testing\QuadraticForm\__init__.py

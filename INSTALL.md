@@ -14,7 +14,7 @@ Then, activate it through
 conda activate mstcs
 ```
 
-Upon changing directory to `mstcs`,  download the package based on the provided [requirements.txt](https://github.com/NahidaNahida/mstcs/blob/main/requirements.txt),
+Upon changing the directory to `mstcs`, download the package based on the provided [requirements.txt](https://github.com/NahidaNahida/mstcs/blob/main/requirements.txt),
 
 ```
 conda install --file requirements.txt
@@ -30,16 +30,18 @@ Congratulations! You are ready to run the code and replicate the results.
 
 ## Docker
 
-As an alternative, this artifact also has the docker image available, such that the docker container can be directly used to replicate the environment. First, we use docker to pull the package by
+As an alternative, we also release the docker image, such that the docker container can be directly used to replicate the environment. 
 
-```
+First, we use docker to pull the package by
+
+```bat
 docker pull ghcr.io/nahidanahida/mstcs-container:latest
 ```
 
 Then, start the container with a volume mount that binds the target directory (i.e., the cloned folder `mstcs`) to a path inside the container.
 
-```
-docker run -p 8888:8888 -it --platform linux/amd64 --name mstcs-container -v "HOST_PATH:CONTAINER_PATH" ghcr.io/nahidanahida/mstcs-container:latest /bin/bash
+```bat
+docker run -p 8888:8888 -it --platform linux/amd64 --name mstcs-container -v "[HOST_PATH]:[CONTAINER_PATH]" ghcr.io/nahidanahida/mstcs-container:latest /bin/bash
 ```
 
 where, 

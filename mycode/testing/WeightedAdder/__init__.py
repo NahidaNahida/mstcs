@@ -1,0 +1,1 @@
+# mycode\testing\WeightedAdder\__init__.py
