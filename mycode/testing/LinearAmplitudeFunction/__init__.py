@@ -1,0 +1,1 @@
+# mycode\testing\LinearAmplitudeFunction\__init__.py
