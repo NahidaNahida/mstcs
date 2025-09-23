@@ -110,7 +110,10 @@ def csv_saving(
         writer.writerow(header)
         writer.writerows(data_list)  # more concise than looping
 
-    print(f"{task_name} is done! Saved at {file_path}")
+    if task_name == "":
+        print(f"This task is done! Saved at {file_path}")
+    else:
+        print(f"Task {task_name} is done! Saved at {file_path}")
 
 
 if __name__ == "__main__":

@@ -31,11 +31,13 @@ def RQ5_create_1MS_input(num_target: int) -> dict:
 config_dict = {
     "all": {
         "versions": ["v1"],
+        "shots_list": list(range(8, 1025, 8)),
         "qubit_list": [5],
         "if_swap_list": [True, False]
     },
     "toy": {
         "versions": ["v1"],
+        "shots_list": [8, 1024],
         "qubit_list": [5],
         "if_swap_list": [True, False]
     }

@@ -96,14 +96,16 @@ if __name__ == '__main__':
         print(program_version)
         for task_name, current_exe in exe_dict.items():
             n_list = input_data["qubit_list"]
-            weight_dict = input_data["weight_dict"]
+            L_list = input_data["L_list"]
+            sign_list = input_data["sign_list"]
             shot_list = input_data["shots_list"]
             exe_function = current_exe["function"]
             if task_name == "PSTC":
                 recorded_data = exe_function(
                     program_version,
                     n_list,
-                    weight_dict,
+                    L_list,
+                    sign_list,
                     shot_list,
                     exe_repeats
                 )
@@ -111,7 +113,8 @@ if __name__ == '__main__':
                 input_states = current_exe["mixed_states"]
                 recorded_data = exe_function(
                     program_version,
-                    weight_dict,
+                    L_list,
+                    sign_list,
                     input_states,
                     "qubits",
                     shot_list,

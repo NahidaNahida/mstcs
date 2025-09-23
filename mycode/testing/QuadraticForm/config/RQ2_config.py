@@ -159,13 +159,10 @@ config_dict = {
         "versions": ["v3"],
         "num_outs": [2],
         "matrix_A": {
-            "qubit_num=4": [
-                [[0, 0, 0, 0], [0, 1, 1, 0], [1, 0, 0, 1], [1, 1, 0, 0]], 
-                [[-1, 1, 2, 1], [1, 1, 0, 1], [1, 1, 1, 1], [0, 0, 1, 0]], 
-            ]
+            "qubit_num=2": [[[2, 2], [0, -1]]]
         },
         "vector_B": {
-            "qubit_num=4": [[-1, 1, 2, 1]]
+            "qubit_num=2": [[-1, 2]]
         },
         "integer_C": [2],
         "mixed_state_suites": {

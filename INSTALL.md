@@ -30,7 +30,7 @@ Congratulations! You are ready to run the code and replicate the results.
 
 ## Docker
 
-As an alternative, we also release the docker image, such that the docker container can be directly used to replicate the environment. 
+As an alternative, we also release the docker image, such that the docker container can be directly used to replicate the environment. For more details about docker, please refer to the [web](https://www.docker.com/).
 
 First, we use docker to pull the package by
 
@@ -46,7 +46,7 @@ docker run -p 8888:8888 -it --platform linux/amd64 --name mstcs-container -v "[H
 
 where, 
 
-+ `HOST_PATH`: The directory path of the cloned `mstcs`.
++ `HOST_PATH`: The path of the repository `mstcs` in your computer or server (e.g., the template  like `.../mstcs`).
 + `CONTAINER_PATH`: The path set for the container (e.g., `/app`).
 
 Congratulations! You are ready to run the code and replicate the results.

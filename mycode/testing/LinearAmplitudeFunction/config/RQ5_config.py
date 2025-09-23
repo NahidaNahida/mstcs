@@ -43,10 +43,10 @@ config_dict = {
         "shots_list": [16, 1024],
         "versions": ["v1"],
         "qubit_list": [5],
-        "slop_list": [0, math.pi / 4, math.pi / 2],
-        "offset_list": [0, math.pi / 4, math.pi / 2],
-        "domain_list": [[-1, 1], [-1, 0], [0, 1]],
-        "image_list": [[-1, 1], [-1, 0], [0, 1]]
+        "slop_list": [math.pi / 4],
+        "offset_list": [math.pi / 4],
+        "domain_list": [[-1, 1]],
+        "image_list": [[-1, 1]]
    }
 }
 

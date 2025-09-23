@@ -82,10 +82,12 @@ config_dict = {
       "shots_list": [8, 1024],
       "versions": ["v1"],
       "qubit_list": [5],
-      "weight_dict": {"qubit_num=5": [
+      "weight_dict": {
+         "qubit_num=5": [
             [1, 0, 2, 1, 2], 
             [0, 0, 1, 0, 0]
-         ]}         
+         ]
+      }         
    }
 }
 
