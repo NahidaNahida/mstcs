@@ -1,3 +1,13 @@
+"""
+This module is used to collect primary info for measuring the complexity
+of the quantum circuits involved in program `WeightedAdder`, including 
+the number of qubits (# Qubits), the number of basic gates (# Gates), and 
+the circuit depth (Depths) shown in Table 3 of our TOSEM paper.
+
+The results will be directly printed in the terminal.
+"""
+
+
 import os
 import importlib
 from qiskit import QuantumCircuit

@@ -57,3 +57,4 @@ By the way, if the image has already existed, we can run the following commend t
 docker start mstcs-container
 docker exec -it mstcs-container /bin/bash
 ```
+

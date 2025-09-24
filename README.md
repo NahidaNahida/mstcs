@@ -48,13 +48,7 @@ where,
 + `RQ_INDEX` (necessary argument): The index of the research question (i.e., `1`, `2`, `3`, `4`, `5`, and `6`).
 + `REP_MODE` (unnecessary argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small subset of the raw test suites for the feasibility of examining the artifact's functionality within an affordable time budget. Meanwhile, the mode `all` indicates to execute all the test suites involved in our TOSEM paper. For convenience, the above command without `--mode [REP_MODE]` still works, which stands for the default `all` mode.
 
-Herein, we offer an example to run the experiment, i.e.,
-
-```bat
-python run_experiment.py --program comp --rq 2 --mode toy
-```
-
-which intends to run RQ2 of $\texttt{IC}$ upon the `toy` model. 
+Herein, we offer an example to run the experiment, i.e., `python -m mycode.run --program comp --rq 2 --mode toy`, which intends to run RQ2 of $\texttt{IC}$ upon the `toy` model. 
 
 ### Saving the Results
 
@@ -71,9 +65,17 @@ This repository includes two notebooks:
 
 To run the notebook, you can use the following commend,
 
-```
-jupyter notebook --allow-root --ip=0.0.0.0 --NotebookApp.token=''
-```
++ For Jupyter Notebook interface configured by `NotebookApp`:
+
+  ```bat
+  jupyter notebook --allow-root --ip=0.0.0.0 --NotebookApp.token=''
+  ```
+
++ For Jupyter Lab interface configured by `ServerApp`:
+
+  ```bat
+  jupyter lab --allow-root --ip=0.0.0.0 --ServerApp.token='' --ServerApp.password=''
+  ```
 
 Then, the link that the Jupyter Server is running at will be returned. Through that, you can visit the notebook in the host browser.
 
