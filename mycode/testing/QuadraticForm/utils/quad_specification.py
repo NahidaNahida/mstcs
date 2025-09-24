@@ -1,33 +1,35 @@
+"""
+Provides functions for calculating the formula-based specification of the
+`QuadraticForm` program.
+
+This module defines two functions for deriving specifications with respect
+to pure-state test cases (PSTCs) and mixed-state test cases (MSTCs).
+The calculations are performed on CPU using algebraic operations on state
+vectors and density operators. The implementation is straightforward,
+making it useful for verifying the functionality of quantum programs.
+"""
+
 import numpy as np
 
-def PSTC_specification(x, A, b, c, num_out_qubits):
-    """
-    Single-input specification (PSTC).
-    
-    Computes the expected output probability distribution for a given input vector x,
-    where the output is determined by the quadratic form:
-        Q(x) = x^T A x + x^T b + c
-    
-    Args:
-        x (list[int] or np.ndarray): Input vector (binary representation of variables).
-        A (list[list[int]] or np.ndarray): Quadratic coefficient matrix.
-        b (list[int] or np.ndarray): Linear coefficient vector.
-        c (int): Constant term.
-        num_out_qubits (int): Number of output qubits.
-    
-    Returns:
-        list[float]: Probability distribution of output states, length = 2^num_out_qubits.
-    """
+from typing import Sequence
+
+def PSTC_specification(
+    x: list[int], 
+    A: list[list], 
+    b: list[int], 
+    c: int, 
+    num_out_qubits: int
+) -> list[float]:
     # Convert to NumPy arrays for safe matrix operations
-    x = np.array(x)
-    A = np.array(A)
-    b = np.array(b)
+    x = np.array(x) # pyright: ignore[reportAssignmentType]
+    A = np.array(A) # pyright: ignore[reportAssignmentType]
+    b = np.array(b) # pyright: ignore[reportAssignmentType]
 
     # Initialize probability distribution (all zeros)
     exp_probs = [0.0] * (2 ** num_out_qubits)
 
     # Compute Q(x) = x^T A x + x^T b + c
-    Q = x.T @ A @ x + x.T @ b + c
+    Q = x.T @ A @ x + x.T @ b + c  # pyright: ignore[reportAttributeAccessIssue]
 
     # Wrap result into [0, 2^num_out_qubits)
     exp_res = int(Q % (2 ** num_out_qubits))
@@ -37,25 +39,15 @@ def PSTC_specification(x, A, b, c, num_out_qubits):
     return exp_probs
 
 
-def MSTC_specification(input_numbers, n, A, b, c, num_out_qubits, input_probs):
-    """
-    Multi-input specification (MSTC).
-    
-    Iterates through multiple input states, computes their expected output distributions
-    using PSTC_specification, and accumulates probabilities weighted by input_probs.
-    
-    Args:
-        input_numbers (list[int]): Set of input numbers (decimal representation).
-        n (int): Number of input bits.
-        A (list[list[int]] or np.ndarray): Quadratic coefficient matrix.
-        b (list[int] or np.ndarray): Linear coefficient vector.
-        c (int): Constant term.
-        num_out_qubits (int): Number of output qubits.
-        input_probs (list[float]): Probability distribution over input numbers.
-    
-    Returns:
-        list[float]: Aggregated output probability distribution, length = 2^num_out_qubits.
-    """
+def MSTC_specification(
+    input_numbers: list[int],
+    n: int, 
+    A: list[list], 
+    b: list[int], 
+    c: int, 
+    num_out_qubits: int, 
+    input_probs: list[float]
+) -> list[float]:
     # Initialize global output distribution
     exp_probs = [0.0] * (2 ** num_out_qubits)
 

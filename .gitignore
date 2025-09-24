@@ -108,3 +108,7 @@ venv.bak/
 .try
 .vscode/
 .vs/
+
+# ignore generated data (`data` and `data(toy)`)
+data/
+data(toy)/

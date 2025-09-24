@@ -1,4 +1,16 @@
-def PSTC_specification(n: int, number: int, L: int, sign: bool) -> list[int]:
+"""
+Provides functions for calculating the formula-based specification of the
+`IntegerComparator` program.
+
+This module defines two functions for deriving specifications with respect
+to pure-state test cases (PSTCs) and mixed-state test cases (MSTCs).
+The calculations are performed on CPU using algebraic operations on state
+vectors and density operators. The implementation is straightforward,
+making it useful for verifying the functionality of quantum programs.
+"""
+
+
+def PSTC_specification(n: int, number: int, L: int, sign: bool) -> list[float]:
     exp_probs = [0] * (2 ** n)
     if sign == True:
         exp_probs[int(number >= L)] = 1
