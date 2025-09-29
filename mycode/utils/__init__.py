@@ -20,9 +20,9 @@ from .preparation_circuits import (
 )
 from .defect_loader import import_versions, get_target_version
 from .csv_saving import csv_saving, RQ_saving_dir
-from .json_loading import rep_mode_selection
 from .repeat_until_success import repeat_until_success, generate_invalid_numbers
 from .circuit_complexity_measure import full_circuit_decomposition, gate_count, depth_count, qubit_count
+from .input_loading import rep_mode_selection
 
 __all__ = [
     "generate_numbers",
@@ -37,7 +37,6 @@ __all__ = [
     "get_target_version",
     "csv_saving",
     "RQ_saving_dir",
-    "rep_mode_selection",
     "separable_control_state_preparation",
     "entangled_control_state_preparation",
     "bit_controlled_preparation_2MS",
@@ -49,5 +48,6 @@ __all__ = [
     "full_circuit_decomposition",
     "gate_count",
     "depth_count",
-    "qubit_count"
+    "qubit_count",
+    "rep_mode_selection"
 ]
