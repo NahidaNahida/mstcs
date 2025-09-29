@@ -1,6 +1,3 @@
-import os
-import json
-
 def rep_mode_selection(config_data: dict, arg: str) -> dict:
     """
     Read the configuration for each experiment, and return the corresponding

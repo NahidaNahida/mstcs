@@ -3,7 +3,8 @@ from qiskit_aer import Aer
 
 def circuit_execution(qc: QuantumCircuit, shots: int) -> dict:
     """
-    Execute a quantum circuit and return the measurement results as a dictionary.
+    Execute a quantum circuit on the backend and return the measurement 
+    results as a dictionary.
 
     This function simulates the execution of a quantum circuit on the 
     Qiskit Aer ``qasm_simulator`` backend. The circuit is transpiled 
