@@ -32,12 +32,12 @@ Note: We also provide an available [docker image](https://github.com/NahidaNahid
 We offer a running example to replicate the empirical results for involved object programs and research questions. We adopt a separate file [`run.py`](./mycode/run.py) as a port to receive the command and execute the corresponding experiment. First, change the directory to the root `\mstc` (a.k.a. the directory of this `README` file) and run the following command,
 
 ```bash
-python -m mycode.run --program <PROGRAM> --rq <RQ_IDX> --mode <REP_MODE>
+python -m mycode.run --program <PROG_SHORT> --rq <RQ_IDX> --mode <REP_MODE>
 ```
 
 where, 
 
-+ `<PROGRAM>` (necessary argument):  The abbreviation of the object program, i.e., 
++ `<PROG_SHORT>` (necessary argument):  This is an argument indicating the lowercase abbreviation of the object program, i.e., 
   + `id` for `Identity` $(\texttt{Id})$;
   + `comp` for `IntegerComparator` $(\texttt{IC})$;
   + `amplitude` for `LinearAmplitudeFunction`  $(\texttt{LAF})$;
@@ -45,25 +45,19 @@ where,
   + `quad` for `QuadraticForm`  $(\texttt{QF})$;
   + `qft` for `QuantumFourierTransform`  $(\texttt{QFT})$; 
   + `adder` for `WeightedAdder`  $(\texttt{WA})$.
-+ `RQ_INDEX` (necessary argument): The index of the research question (i.e., `1`, `2`, `3`, `4`, and `5`).
-+ `REP_MODE` (unnecessary argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small subset of the raw test suites for the feasibility of examining the artifact's functionality within an affordable time budget. Meanwhile, the mode `all` indicates to execute all the test suites involved in our TOSEM paper. For convenience, the above command without `--mode [REP_MODE]` still works, which stands for the default `all` mode.
++ `<RQ_INDEX>` (necessary argument): The index of the research question. There are five valid arguments at most, i.e., `1`, `2`, `3`, `4`, and `5`. Unlike the six real-world programs, the benchmark program $\texttt{Id}$ is not employed in the three experiments that discuss test effectiveness, so only `1` and `2` are valid for $\texttt{Id}$.
++ `<REP_MODE>` (unnecessary argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small configurable subset of the raw test suites for the feasibility of examining the artifact’s functionality within an affordable time budget. Meanwhile, the mode `all` indicates executing all the test suites involved in our article, whereas it might take several days to finish traversing all the RQs for each of the QPs. Besides, for convenience, the above command without `−−mode <REP_MODE>` still works, which indicates the default `all` mode.
 
-Herein, we offer an example to run the experiment, i.e., `python -m mycode.run --program comp --rq 2 --mode toy`, which intends to run RQ2 of $\texttt{IC}$ upon the `toy` model. 
-
-### Saving the Results
-
-The yielded results (stored as a `.csv` file) are saved to `./data/raw_data_for_empirical_results/RQ/PROGRAM` automatically.
-
-
+We offer an example to run the experiment, i.e., `python -m mycode.run --program comp --rq 2 --mode toy`, which intends to run RQ2 of $\texttt{IC}$ upon the `toy` model. 
 
 ### Data Analysis
 
 This repository includes two notebooks:
 
-+ `motivational_example.ipynb`: run and analyze a toy example of `WA-v4` as the motivation of proposing MSTCs.
-+ `drawing_figures.ipynb`: replicate the figures (Fig.10 and Fig.11) involved in the empirical studies.  
++ `motivational_example.ipynb`: Through this notebook, we can run and analyze a toy example of `WA-v4` introduced as the motivation for proposing MSTCs. Especially, this notebook prints the test results of executing all PSTCs and draws quantum circuits of the program version under test. More details about the example can be found in Section 4 of our TOSEM paper. The generated test results and quantum circuit diagrams will be saved in the directory `mstcs/<SAVE_MODE>/motivational_examples`.
++ `drawing_figures.ipynb`: It aims to reproduce two figures (i.e., Fig. 10 for RQ1 and Fig. 11 for RQ5) involved in empirical studies. Note that its successful work relies on the complete results produced from the all mode. Still, we can test the functionality of this notebook based on the raw data offered in the folder `rawdata`. The produced figures will be saved in the directory `mstcs/<SAVE_MODE>/plotting_for_empirical_results`.
 
-To run the notebook, you can use the following commend,
+If we intend to run Jupyter notebooks within the container `mstcs−container`, then run one of the following two alternatives,
 
 + For Jupyter Notebook interface configured by `NotebookApp`:
 
@@ -77,4 +71,4 @@ To run the notebook, you can use the following commend,
   jupyter lab --allow-root --ip=0.0.0.0 --ServerApp.token='' --ServerApp.password=''
   ```
 
-Then, the link that the Jupyter Server is running at will be returned. Through that, you can visit the notebook in the host browser.
+After that, the link that the Jupyter Server is running at will be returned in the terminal log. Then, we can visit the notebook in the host browser.

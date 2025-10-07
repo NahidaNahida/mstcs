@@ -4,7 +4,7 @@ The instructions include two alternatives for setup, one using Anaconda to insta
 
 ## Anaconda
 
-This manner employs Anaconda to create a virtual environment manually. First, we create an environment named `mstcs` with `python=3.11.0`.
+This manner employs Anaconda to create a virtual environment manually. First, we create an environment named `mstcs` with Python 3.11.0 by
 
 ```bash
 conda create --name mstcs python=3.11.0
@@ -22,7 +22,7 @@ Upon changing the directory to `mstcs`, download the required packages based on 
 conda install --file requirements.txt
 ```
 
-If some packages are not available from current channels,  we can still try Python Package Installer (i.e., `pip install`) repository as a compromised solution through
+If some packages are not available from the current channels, we can still try Python Package Installer as a compromised solution through
 
 ```bash
 pip install -r requirements.txt
@@ -32,15 +32,15 @@ By following all the above steps, it is ready to run the code and replicate the 
 
 ## Docker
 
-As an alternative, we also release the docker image, such that the docker container can be directly used to replicate the environment. For more details about docker, please refer to the [web](https://www.docker.com/).
+If practitioners are familiar with Docker, we would strongly recommend this method to clone an environment identical to the one we previously used, without any unexpected issues. For more details about docker, please refer to the [web](https://www.docker.com/).
 
-To begin with, we pull the package by
+To begin with, we start Docker Desktop and pull the package by
 
 ```bash
 docker pull ghcr.io/nahidanahida/mstcs-container:latest
 ```
 
-Then, we should build a container based on the pulled Docker image. The container will include a volume mount that binds the target directory (i.e., that of the cloned `mstcs`) to a specific path inside the container. This ensures that any changes made in the host's `mstcs` are reflected within the container, enabling seamless interaction with the local development environment. In general, we are supposed to run the following command,
+Then, we should build a container based on the pulled Docker image. The container will include a volume mount that binds the target directory (i.e., that of the cloned or downloaded `mstcs`) to a specific path inside the container. This ensures that any changes made in the host's `mstcs` are reflected within the container, enabling seamless interaction with the local development environment. In general, we are supposed to run the following command,
 
 ```bash
 docker run `
@@ -54,16 +54,12 @@ docker run `
 
 where, 
 
-+ `HOST_PORT` and `CONTAINER_PORT`: 8888:8888
-+ `HOST_PATH`: The path of the repository `mstcs` in your computer or server (e.g., the template  like `.../mstcs`).
-+ `CONTAINER_PATH`: The path set for the container (e.g., `/app`).
++ `<HOST_PORT>` and `<CONTAINER_PORT>`: The two arguments refer to the ports for the host and the built container, respectively. For instance, we can set both ports `<HOST_PORT>` and `<CONTAINER_PORT>` as 8888.
++ `<HOST_PATH>` and `<CONTAINER_PATH>`: The former indicates the intended absolute path of the repository `mstcs` in the local computer or the remote server (e.g., in the form of `./mstcs`), while the latter refers to the path inside the container (e.g., `/app`).
 
-Congratulations! You are ready to run the code and replicate the results.
-
-By the way, if the container has already existed, we can run the following command to step into the container.
+After finishing the above steps, we can run the code within the established container named `mstcs−container`. By the way, if such a container has already been built, we can straightforwardly run the following two commands to step into the container:
 
 ```bash
 docker start mstcs-container
 docker exec -it mstcs-container /bin/bash
 ```
-
