@@ -38,13 +38,13 @@ python -m mycode.run --program <PROG_SHORT> --rq <RQ_IDX> --mode <REP_MODE>
 where, 
 
 + `<PROG_SHORT>` (necessary argument):  This is an argument indicating the lowercase abbreviation of the object program, i.e., 
-  + `id` for `Identity` $(\texttt{Id})$;
-  + `comp` for `IntegerComparator` $(\texttt{IC})$;
-  + `amplitude` for `LinearAmplitudeFunction`  $(\texttt{LAF})$;
-  + `pauli` for `LinearPauliRotations`  $(\texttt{LPR})$; 
-  + `quad` for `QuadraticForm`  $(\texttt{QF})$;
-  + `qft` for `QuantumFourierTransform`  $(\texttt{QFT})$; 
-  + `adder` for `WeightedAdder`  $(\texttt{WA})$.
+  + `id` for `Identity`;
+  + `comp` for `IntegerComparator`;
+  + `amplitude` for `LinearAmplitudeFunction`;
+  + `pauli` for `LinearPauliRotations`; 
+  + `quad` for `QuadraticForm`;
+  + `qft` for `QFT`; 
+  + `adder` for `WeightedAdder`.
 + `<RQ_INDEX>` (necessary argument): The index of the research question. There are five valid arguments at most, i.e., `1`, `2`, `3`, `4`, and `5`. Unlike the six real-world programs, the benchmark program $\texttt{Id}$ is not employed in the three experiments that discuss test effectiveness, so only `1` and `2` are valid for $\texttt{Id}$.
 + `<REP_MODE>` (unnecessary argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small configurable subset of the raw test suites for the feasibility of examining the artifact’s functionality within an affordable time budget. Meanwhile, the mode `all` indicates executing all the test suites involved in our article, whereas it might take several days to finish traversing all the RQs for each of the QPs. Besides, for convenience, the above command without `−−mode <REP_MODE>` still works, which indicates the default `all` mode.
 

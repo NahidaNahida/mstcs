@@ -2,7 +2,7 @@ HEADER_DICT = {
     "RQ1": ['n', '# test_cases', 'ave_time(entire)', 'ave_time(prepare)'],
     "RQ2": ['test_suite', 'mixed_pre_mode', '# test_cases', 'ave_time'],
     "RQ3": ['n','# test_cases', 'ave_fault'],
-    "RQ4": ['test_suite', '# test_cases', 'ave_fault'],
+    "RQ4": ['test_suite', 'angle_values', '# test_cases', 'ave_fault'],
     "RQ5": ['shots', 'ave_time', 'ave_fault']
 }
 
@@ -32,6 +32,7 @@ def required_data(rq_name, recorded_list: list[dict]) -> list[list]:
         elif rq_name == "RQ4":
             return [
                 metadata_dict["input_name"],
+                metadata_dict["angle_values"],
                 metadata_dict["num_test_cases"],
                 metadata_dict["ave_faults"]
             ]

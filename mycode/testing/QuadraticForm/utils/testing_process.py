@@ -193,7 +193,7 @@ def testing_process_MSTCs_1MS(
     c_list: list, 
     num_outs: list[int],
     inputs_list: list, 
-    pre_mode: Literal["bits", "qubits"], 
+    mixed_pre_mode: Literal["bits", "qubits"], 
     shots: int,
     repeats: int
 ) -> list[dict]:   
@@ -229,9 +229,9 @@ def testing_process_MSTCs_1MS(
                 qc.append(qc_con, qc.qubits[:m]) # pyright: ignore[reportArgumentType]
 
                 # Process control and target states
-                if pre_mode == 'bits':
+                if mixed_pre_mode == 'bits':
                     qc = bit_controlled_preparation_1MS(n, m, qc)
-                elif pre_mode == 'qubits':
+                elif mixed_pre_mode == 'qubits':
                     qc = qubit_controlled_preparation_1MS(n, m, qc) 
                     
                 # Append the tested quantum subroutine (quantum program) 
@@ -258,8 +258,9 @@ def testing_process_MSTCs_1MS(
         dura_time = time.time() - start_time
         recorded_result.append({            
             "input_name": input_name,
+            "angle_values": str(angle_list),
             "num_shots": shots,
-            "controlling_unit": pre_mode,
+            "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
             "ave_exe_time": dura_time / num_classical_inputs / repeats,
             "ave_faults": total_failures / test_cases / repeats
@@ -273,7 +274,7 @@ def testing_process_MSTCs_2MS(
     c_list: list, 
     num_outs: list[int],
     inputs_list: list, 
-    pre_mode: Literal["bits", "qubits"], 
+    mixed_pre_mode: Literal["bits", "qubits"], 
     shots: int,
     repeats: int
 ) -> list[dict]:    
@@ -319,9 +320,9 @@ def testing_process_MSTCs_2MS(
                     
                     qc.append(qc_con, qc.qubits[:m]) # type: ignore
 
-                    if pre_mode == 'bits':
+                    if mixed_pre_mode == 'bits':
                         qc = bit_controlled_preparation_2MS(n, m, qc)
-                    elif pre_mode == 'qubits':
+                    elif mixed_pre_mode == 'qubits':
                         qc = qubit_controlled_preparation_2MS(n, m, qc) 
                         
                     # Append the tested quantum subroutine (quantum program) 
@@ -348,8 +349,9 @@ def testing_process_MSTCs_2MS(
         dura_time = time.time() - start_time
         recorded_result.append({            
             "input_name": input_name,
+            "angle_values": str(angle_lists[0]),
             "num_shots": shots, 
-            "controlling_unit": pre_mode,
+            "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
             "ave_exe_time": dura_time / num_classical_inputs / repeats,
             "ave_faults": total_failures / test_cases / repeats
