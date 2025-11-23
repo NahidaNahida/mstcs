@@ -245,6 +245,7 @@ def testing_process_MSTCs_1MS(
         dura_time = time.time() - start_time
         recorded_result.append({            
             "input_name": input_name,
+            "angle_values": str(angle_list),
             "num_shots": shots,
             "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
@@ -331,6 +332,7 @@ def testing_process_MSTCs_2MS(
         dura_time = time.time() - start_time
         recorded_result.append({            
             "input_name": input_name,
+            "angle_values": str(angle_lists[0]),
             "num_shots": shots, 
             "controlling_unit": mixed_pre_mode,
             "num_test_cases": test_cases, 
