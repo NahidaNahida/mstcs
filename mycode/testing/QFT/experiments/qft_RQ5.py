@@ -24,16 +24,23 @@ def _RQ_running_PSTCs(
     n_list: list[int], 
     if_swap_list: list[bool],
     shot_list: list[int], 
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
     recorded_list = []
-    for shots in shot_list:
+    for shot_idx, shots in enumerate(shot_list):
+        # RQ5 configures varied shots
+        if shot_idx == 0:
+            rq5_verbose = verbose
+        else:
+            rq5_verbose = False
         temp_list = testing_process_PSTCs(
             program_version,
             n_list,
             if_swap_list,
             shots,
-            repeats
+            repeats,
+            rq5_verbose
         )
         recorded_list = recorded_list + temp_list
     return required_data(_RQ_NAME, recorded_list)
@@ -45,18 +52,29 @@ def _RQ_running_MSTC_core(
     mixed_pre_mode: Literal["bits", "qubits"],
     shot_list: list[int],
     repeats: int,
-    process_func: Callable
+    process_func: Callable,
+    verbose: bool=False
 ) -> list[list]:
     recorded_list = []
-    for shots in shot_list:
+    for shot_idx, shots in enumerate(shot_list):
+        # RQ5 configures varied shots
+        if shot_idx == 0:
+            rq5_verbose = verbose
+        else:
+            rq5_verbose = False
         temp_list = process_func(
             program_version,
             if_swap_list,
             inputs_list,
             mixed_pre_mode,
             shots,
-            repeats
+            repeats,
+            rq5_verbose
         )
+
+        if verbose:
+            print(f"# of shots = {shots} is done!")
+
         recorded_list = recorded_list + temp_list
     return required_data(_RQ_NAME, recorded_list)
 
@@ -69,7 +87,18 @@ if __name__ == '__main__':
     from ..config.RQ5_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -101,7 +130,8 @@ if __name__ == '__main__':
                     n_list,
                     if_swap_list,
                     shot_list,
-                    exe_repeats
+                    exe_repeats,
+                    verbose=args.verbose
                 )
             else:
                 input_states = current_exe["mixed_states"]
@@ -111,7 +141,8 @@ if __name__ == '__main__':
                     input_states,
                     "qubits",
                     shot_list,
-                    exe_repeats
+                    exe_repeats,
+                    verbose=args.verbose
                 )
 
             # Save the data

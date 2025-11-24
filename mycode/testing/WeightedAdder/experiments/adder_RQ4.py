@@ -25,7 +25,8 @@ def _RQ_running_MSTC_core(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     repeats: int,
-    process_func: Callable
+    process_func: Callable,
+    verbose: bool=False
 ) -> list:
     
     recorded_list = process_func(
@@ -34,7 +35,8 @@ def _RQ_running_MSTC_core(
         inputs_list,
         mixed_pre_mode,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -48,7 +50,18 @@ if __name__ == '__main__':
     from ..config.RQ4_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -84,7 +97,8 @@ if __name__ == '__main__':
                 weight_dict, 
                 input_states, 
                 'qubits',
-                exe_repeats
+                exe_repeats,
+                verbose=args.verbose
             )     
         # Save the data
         csv_saving(_RQ_NAME, program_name, program_version, save_dir, header, "", recorded_result)

@@ -42,3 +42,47 @@ def gate_count(qc: QuantumCircuit) -> int:
 
 def qubit_count(qc: QuantumCircuit) -> int:
     return qc.num_qubits
+
+if __name__ == "__main__":
+    """
+    Unit testing. Run the following command,
+    `python mycode/utils/circuit_complexity_measure.py`
+    """
+    def test_input_0():
+        # Create a circuit containing a composite gate  
+        qc = QuantumCircuit(1)
+        qc.h(0)       
+        return qc
+
+    def integration_test_0(qc):
+        decomposed = full_circuit_decomposition(qc)
+
+        # Should not contain the "h" gate anymore after decomposition
+        assert "h" not in decomposed.count_ops().keys()
+
+    def integration_test_1(qc):
+        decomposed = full_circuit_decomposition(qc)
+        # The resulting circuit should still be functionally equivalent in qubit count
+        assert qubit_count(decomposed) == 1
+
+    def integration_test_2(qc):
+        decomposed = full_circuit_decomposition(qc)
+        # The decomposed gates and depths should be no less than 1
+        assert gate_count(decomposed) >= 1
+        assert depth_count(decomposed) >= 1
+
+    executed_test = {
+        "0": {"input_qc": test_input_0, "function": integration_test_0},
+        "1": {"input_qc": test_input_0, "function": integration_test_1},
+        "2": {"input_qc": test_input_0, "function": integration_test_2},
+    }
+
+    for id, execution_dict in executed_test.items():
+        print(f"test_id={id}: ", end="")
+        test_input = execution_dict["input_qc"]()
+        try:
+            execution_dict["function"](test_input)
+            print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

@@ -25,11 +25,15 @@ def main():
             Note that the program Identity (i.e., id) supports RQ1 and RQ2 only.
             """
         ),
-        epilog='Example usage: python run_experiment.py --program comp --rq 2 --mode toy'
+        epilog=
+        """
+        Example usage: `python -m mycode.run --program comp --rq 2 --mode toy`, 
+        which intends to run RQ2 of IntegerComparator upon the `toy` model.
+        """
     )
 
     # Build help text showing all valid program abbreviations and their full names
-    help_text = "\n".join([f"{key} for {val}" for key, val in ABB2FULL_MAPPING.items()])
+    help_text = "\n".join([f"`{key}` corresponds to `{val}`, " for key, val in ABB2FULL_MAPPING.items()])
 
     # Argument: program abbreviation (e.g., "id")
     parser.add_argument(
@@ -46,7 +50,10 @@ def main():
     # Argument: research question number
     parser.add_argument(
         '--rq',
-        help='The target research question, e.g., use ``--rq 3`` for RQ3.',
+        help="""
+            The target research question from 1 to 5, e.g., use `--rq 3` for RQ3.
+            However, we should note that: for program `id`, only `--rq 1` and `--rq 2` are vaild.
+        """,
         required=True,
         choices=["1", "2", "3", "4", "5"],
         type=str
@@ -56,15 +63,21 @@ def main():
     parser.add_argument(
         '--mode',
         type=str,
-        help="Replication mode: 'toy' or 'all'.",
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
         default=None
     )
 
+    # Argument: print the progress information
+    parser.add_argument("--verbose", action="store_true",
+                        help="Print detailed progress information.")
+    
     args = parser.parse_args()
     abbreviation = args.program
     rq_num = args.rq
     full_name = ABB2FULL_MAPPING[abbreviation]
     rep_mode = args.mode
+    verbose = args.verbose
 
     # -------------------------------
     # Step 2: Construct the module name for the experiment
@@ -93,6 +106,8 @@ def main():
     cmd = [sys.executable, "-m", module_name]
     if rep_mode is not None:
         cmd.extend(["--mode", rep_mode])
+    if verbose:
+        cmd.append("--verbose")
 
     # -------------------------------
     # Step 5: Run the target experiment

@@ -25,7 +25,8 @@ def _RQ_running_PSTCs(
     offset_list: list[float], 
     domain_list: list[list[float]], 
     image_list: list[list[float]],
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
     
     recorded_list = testing_process_PSTCs(
@@ -36,7 +37,8 @@ def _RQ_running_PSTCs(
         domain_list, 
         image_list,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -48,7 +50,8 @@ def _RQ_running_MSTCs(
     domain_list: list[list[float]], 
     image_list: list[list[float]],
     pre_mode: Literal["bits", "qubits"], 
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
 
     recorded_list = testing_process_MSTCs(
@@ -60,7 +63,8 @@ def _RQ_running_MSTCs(
         image_list,
         pre_mode,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -69,7 +73,18 @@ if __name__ == '__main__':
     from ..config.RQ1_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -85,7 +100,8 @@ if __name__ == '__main__':
             input_data["offset_list"],
             input_data["domain_list"],
             input_data["image_list"],
-            exe_repeats
+            exe_repeats,
+            verbose=args.verbose
         )
         csv_saving(
             _RQ_NAME, 
@@ -106,7 +122,8 @@ if __name__ == '__main__':
                 input_data["domain_list"],
                 input_data["image_list"],
                 control_mode,  # type: ignore
-                exe_repeats
+                exe_repeats,
+                verbose=args.verbose
             )
             csv_saving(
                 _RQ_NAME, 

@@ -32,7 +32,7 @@ Note: We also provide an available [docker image](https://github.com/NahidaNahid
 We offer a running example to replicate the empirical results for involved object programs and research questions. We adopt a separate file [`run.py`](./mycode/run.py) as a port to receive the command and execute the corresponding experiment. First, change the directory to the root `\mstc` (a.k.a. the directory of this `README` file) and run the following command,
 
 ```bash
-python -m mycode.run --program <PROG_SHORT> --rq <RQ_IDX> --mode <REP_MODE>
+python -m mycode.run --program <PROG_SHORT> --rq <RQ_IDX> [--mode <REP_MODE>] [--verbose]
 ```
 
 where, 
@@ -46,9 +46,10 @@ where,
   + `qft` for `QFT`; 
   + `adder` for `WeightedAdder`.
 + `<RQ_INDEX>` (necessary argument): The index of the research question. There are five valid arguments at most, i.e., `1`, `2`, `3`, `4`, and `5`. Unlike the six real-world programs, the benchmark program $\texttt{Id}$ is not employed in the three experiments that discuss test effectiveness, so only `1` and `2` are valid for $\texttt{Id}$.
-+ `<REP_MODE>` (unnecessary argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small configurable subset of the raw test suites for the feasibility of examining the artifact’s functionality within an affordable time budget. Meanwhile, the mode `all` indicates executing all the test suites involved in our article, whereas it might take several days to finish traversing all the RQs for each of the QPs. Besides, for convenience, the above command without `−−mode <REP_MODE>` still works, which indicates the default `all` mode.
++ `<REP_MODE>` (optional argument): The mode for replication. Herein, we provide two modes: `toy` and `all`. The mode `toy` only executes a small configurable subset of the raw test suites for the feasibility of examining the artifact’s functionality within an affordable time budget. Meanwhile, the mode `all` indicates executing all the test suites involved in our article, whereas it might take several days to finish traversing all the RQs for each of the QPs. Besides, for convenience, the above command without `−−mode <REP_MODE>` still works, which indicates the default `all` mode.
++ `--verbose` (optional item): It is designed for inspecting the intermediate output via the texts printed in the terminal.
 
-We offer an example to run the experiment, i.e., `python -m mycode.run --program comp --rq 2 --mode toy`, which intends to run RQ2 of $\texttt{IC}$ upon the `toy` model. 
+We offer an example to run the experiment, i.e., `python -m mycode.run --program comp --rq 2 --mode toy`, which intends to run RQ2 of `IntegerComparator` upon the `toy` model without printing the intermediate runtime info. 
 
 ### Data Analysis
 
@@ -72,3 +73,23 @@ If we intend to run Jupyter notebooks within the container `mstcs−container`, 
   ```
 
 After that, the link that the Jupyter Server is running at will be returned in the terminal log. Then, we can visit the notebook in the host browser.
+
+## Utilities
+
+Our artifact comprises several utilities across different levels, designed not only to implement
+current test processes but also to enable iterative development and promote reuse. 
+
+### Global-level Utilities
+
+| Name                            | Functionality                                                | Tests                          |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------ |
+| `circuit_complexity_measure.py` | Provide functions for analyzing and processing Qiskit quantum circuits to measure their structural complexity. | 3 integration tests            |
+| `circuit_execution.py`          | Execute a quantum circuit on the backend and return the measurement results in a dictionary form. | 1 unit test and 1 manual check |
+| `csv_saving.py`                 | Generate the directory path for saving raw empirical data and then store these results in `csv`. |                                |
+| data\_convertion.py             | Offer functions to perform pre-processing and conversion between different data structures involved in testing QPs. |                                |
+| defect\_loader.py               | Dynamically load all buggy versions of a program under a specific directory and then return the required buggy version for import. |                                |
+| input\_loading.py               | Select the test input configuration according to the given replication mode. |                                |
+| preparation\_circuits.py        | Incorporate functions to yield circuits for generating specific MSTCs, including different control instructions and state preparation methods. |                                |
+| repeat\_until\_success.py       | For the use of RQ2, execute a quantum circuit repeatedly until all measurement results are valid. |                                |
+| test\_oracle.py                 | Implement the test oracle (i.e., output probability oracle) to identify the test results (i.e., pass or fail). |                                |
+
