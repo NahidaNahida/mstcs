@@ -49,3 +49,71 @@ def OPO_UTest(
     else:
         # If p-value is less than or equal to threshold, distributions differ significantly
         return 'fail'
+
+
+
+if __name__ == "__main__":
+    """
+    Unit testing for OPO_UTest.
+    Run:
+        python mycode/utils/test_oracle.py
+    """
+
+    # ----------------------------
+    # Test inputs
+    # ----------------------------
+
+    def test_input_pass_case():
+        """
+        Generate two similar distributions that should 'pass' the test.
+        """
+        np.random.seed(42)
+        exp_samps = np.random.normal(loc=0, scale=1, size=100)
+        test_samps = np.random.normal(loc=0, scale=1, size=100)
+        return exp_samps, test_samps
+
+    def test_input_fail_case():
+        """
+        Generate two different distributions that should 'fail' the test.
+        """
+        np.random.seed(42)
+        exp_samps = np.random.normal(loc=0, scale=1, size=100)
+        test_samps = np.random.normal(loc=1, scale=1, size=100)
+        return exp_samps, test_samps
+
+    # ----------------------------
+    # Unit tests
+    # ----------------------------
+
+    def unit_test_pass_case(input_tuple, threshold=0.05):
+        exp_samps, test_samps = input_tuple
+        result = OPO_UTest(exp_samps, test_samps, threshold)
+        assert result == 'pass', f"Expected 'pass', got {result}"
+
+    def unit_test_fail_case(input_tuple, threshold=0.05):
+        exp_samps, test_samps = input_tuple
+        result = OPO_UTest(exp_samps, test_samps, threshold)
+        assert result == 'fail', f"Expected 'fail', got {result}"
+ 
+
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
+    executed_test = {
+        "0": {"input": test_input_pass_case, "function": unit_test_pass_case},
+        "1": {"input": test_input_fail_case, "function": unit_test_fail_case}
+    }
+
+    for test_id, execution_dict in executed_test.items():
+        print(f"\nExecuting test_id={test_id}:")
+        test_input_val = execution_dict["input"]()
+        try:
+            execution_dict["function"](test_input_val)
+            if "manual" in execution_dict["function"].__name__:
+                print("need manual check")
+            else:
+                print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

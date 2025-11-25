@@ -568,3 +568,106 @@ def qubit_controlled_preparation_MPS(n: int, m: int, qc: QuantumCircuit) -> Quan
         qc.measure(qc.qubits[i], qc.clbits[i])
 
     return qc
+
+if __name__ == "__main__":
+    """
+    Manual check for all preparation circuits.
+    Run:
+        python -m mycode.utils.preparation_circuits
+    """
+
+    shots = 1024  # For consistency; not used in manual checks
+
+    # ----------------------------
+    # Test inputs
+    # ----------------------------
+
+    def test_input_separable_circuit():  
+        return [math.pi/3, math.pi/2, math.pi/4]
+
+    def test_input_entangled_circuit():
+        return [2*math.pi/3, math.pi/6, math.pi/3]
+
+    def test_input_mixed_states():
+        n, m = 2, 2
+        qc = QuantumCircuit(n+m, n+m)
+        return qc, n, m
+
+    # ----------------------------
+    # Manual check functions
+    # ----------------------------
+
+    def manual_check_separable_circuit(theta_list, shots):
+        qc = separable_control_state_preparation(theta_list)
+        print("\n--- Separable Control Circuit ---")
+        print(qc.draw(output='text'))
+
+    def manual_check_entangled_circuit(theta_list, shots):
+        qc = entangled_control_state_preparation(theta_list)
+        print("\n--- Entangled Control Circuit ---")
+        print(qc.draw(output='text'))
+
+    def manual_check_bit_controlled_1MS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = bit_controlled_preparation_1MS(n, m, qc)
+        print("\n--- Bit-Controlled 1MS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    def manual_check_qubit_controlled_1MS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = qubit_controlled_preparation_1MS(n, m, qc)
+        print("\n--- Qubit-Controlled 1MS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    def manual_check_bit_controlled_2MS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = bit_controlled_preparation_2MS(n, m, qc)
+        print("\n--- Bit-Controlled 2MS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    def manual_check_qubit_controlled_2MS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = qubit_controlled_preparation_2MS(n, m, qc)
+        print("\n--- Qubit-Controlled 2MS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    def manual_check_bit_controlled_MPS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = bit_controlled_preparation_MPS(n, m, qc)
+        print("\n--- Bit-Controlled MPS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    def manual_check_qubit_controlled_MPS(qc_n_m_tuple, shots):
+        qc, n, m = qc_n_m_tuple
+        qc_new = qubit_controlled_preparation_MPS(n, m, qc)
+        print("\n--- Qubit-Controlled MPS Circuit ---")
+        print(qc_new.draw(output='text'))
+
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
+    executed_test = {
+        "0": {"input": test_input_separable_circuit, "shots": shots, "function": manual_check_separable_circuit},
+        "1": {"input": test_input_entangled_circuit, "shots": shots, "function": manual_check_entangled_circuit},
+        "2": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_bit_controlled_1MS},
+        "3": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_qubit_controlled_1MS},
+        "4": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_bit_controlled_2MS},
+        "5": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_qubit_controlled_2MS},
+        "6": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_bit_controlled_MPS},
+        "7": {"input": test_input_mixed_states, "shots": shots, "function": manual_check_qubit_controlled_MPS},
+    }
+ 
+    for id, execution_dict in executed_test.items():
+        print(f"test_id={id}:")
+        test_input = execution_dict["input"]()
+        shots = execution_dict["shots"]
+        try:
+            execution_dict["function"](test_input, shots)
+            if "manual" in execution_dict["function"].__name__:
+                print("need manual check")
+            else:
+                print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

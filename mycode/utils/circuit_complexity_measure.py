@@ -45,14 +45,24 @@ def qubit_count(qc: QuantumCircuit) -> int:
 
 if __name__ == "__main__":
     """
-    Unit testing. Run the following command,
-    `python mycode/utils/circuit_complexity_measure.py`
+    Unit testing.
+    Run:
+        python mycode/utils/circuit_complexity_measure.py
     """
+
+    # ------------------------
+    # Test inputs
+    # ------------------------
+
     def test_input_0():
         # Create a circuit containing a composite gate  
         qc = QuantumCircuit(1)
         qc.h(0)       
         return qc
+
+    # ------------------------
+    # Integration Tests
+    # ------------------------
 
     def integration_test_0(qc):
         decomposed = full_circuit_decomposition(qc)
@@ -71,15 +81,19 @@ if __name__ == "__main__":
         assert gate_count(decomposed) >= 1
         assert depth_count(decomposed) >= 1
 
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
     executed_test = {
-        "0": {"input_qc": test_input_0, "function": integration_test_0},
-        "1": {"input_qc": test_input_0, "function": integration_test_1},
-        "2": {"input_qc": test_input_0, "function": integration_test_2},
+        "0": {"input": test_input_0, "function": integration_test_0},
+        "1": {"input": test_input_0, "function": integration_test_1},
+        "2": {"input": test_input_0, "function": integration_test_2},
     }
 
     for id, execution_dict in executed_test.items():
-        print(f"test_id={id}: ", end="")
-        test_input = execution_dict["input_qc"]()
+        print(f"test_id={id}:")
+        test_input = execution_dict["input"]()
         try:
             execution_dict["function"](test_input)
             print("pass")

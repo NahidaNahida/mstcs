@@ -37,9 +37,14 @@ def circuit_execution(qc: QuantumCircuit, shots: int) -> dict:
 
 if __name__ == "__main__":
     """
-    Unit testing. Run the following command,
-    `python mycode/utils/circuit_execution.py`
+    Unit testing. 
+    Run:
+        python mycode/utils/circuit_execution.py
     """
+    # ----------------------------
+    # Test inputs 
+    # ----------------------------
+
     def test_input_0():
         # Create a circuit containing a composite gate  
         qc = QuantumCircuit(2, 2)
@@ -49,25 +54,39 @@ if __name__ == "__main__":
         qc.measure(1, 1)     
         return qc
 
+    # ----------------------------
+    # Unit tests 
+    # ----------------------------
+
     def unit_test_0(qc, shots):
         dict_counts = circuit_execution(qc, shots)
         assert isinstance(dict_counts, dict)
+
+    # ----------------------------
+    # Results needing manual check 
+    # ----------------------------
 
     def manual_check_0(qc, shots):
         dict_counts = circuit_execution(qc, shots)
         print(dict_counts)
 
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
     executed_test = {
-        "0": {"input_qc": test_input_0, "shots": 1024, "function": unit_test_0},
-        "1": {"input_qc": test_input_0, "shots": 1024, "function": manual_check_0},
+        "0": {"input": test_input_0, "shots": 1024, "function": unit_test_0},
+        "1": {"input": test_input_0, "shots": 1024, "function": manual_check_0},
     }
     for id, execution_dict in executed_test.items():
-        print(f"test_id={id}: ", end="")
-        test_input = execution_dict["input_qc"]()
+        print(f"test_id={id}:")
+        test_input = execution_dict["input"]()
         shots = execution_dict["shots"]
         try:
             execution_dict["function"](test_input, shots)
-            if "manual" not in execution_dict["function"].__name__:
+            if "manual" in execution_dict["function"].__name__:
+                print("need manual check")
+            else:
                 print("pass")
         except AssertionError as e:
             print("fail")

@@ -83,7 +83,7 @@ if __name__ == '__main__':
     exe_dict = {"PSTC": _RQ_running_PSTCs, "MSTC":_RQ_running_MSTCs}
     # Execute the test processes
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         for task_name, exe_function in exe_dict.items():
             if task_name == "PSTC":
                 recorded_data = exe_function(

@@ -101,7 +101,7 @@ if __name__ == '__main__':
     
     # Execute the test process
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         recorded_result = []
         for current_exe in exe_dict.values():
             for mode in ["bits", "qubits"]:

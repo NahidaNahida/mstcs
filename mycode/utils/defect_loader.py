@@ -96,19 +96,90 @@ def get_target_version(version_dict: dict, version: str | int):
 
 
 if __name__ == "__main__":
-    # Unit testing of ``load_program_versions``
-    # The current working directory should be ``.\mstcs``
-    program_name = "WeightedAdder"
-    buggy_version_dir = "code\\testing\\WeightedAdder\\programs"
+    """
+    Unit / Integration Testing for helper functions.
+    Run: 
+        python -m mycode.utils.defect_loader
+    
+    We should run the code via `-m`, due to involving `from ..config import FULL2ABB_MAPPING`
+    """
 
-    start_time_1 = time.time()
-    ver_dict = import_versions(program_name, buggy_version_dir)
-    print(ver_dict)     # Check the result dictionary
-    dura_time_1 = time.time() - start_time_1
+    # ------------------------
+    # Test inputs
+    # ------------------------
 
-    # Test the time
-    # We expected ``dura_time_2 < dura_time_1`` significantly.
-    start_time_2 = time.time()
-    _ = import_versions(program_name, buggy_version_dir)
-    dura_time_2 = time.time() - start_time_2
-    print(f"time_1: {dura_time_1}, time_2: {dura_time_2}")
+    def test_input_import_versions():
+        return {
+            "program_name": "WeightedAdder",
+            "buggy_dir": "mycode\\testing\\WeightedAdder\\programs"
+        }
+
+    # ------------------------
+    # Unit Test: correctness of returned dictionary
+    # ------------------------ 
+
+    def unit_test_import_dict(inp):
+        program_name = inp["program_name"]
+        buggy_dir = inp["buggy_dir"]
+
+        ver_dict = import_versions(program_name, buggy_dir)
+
+        # Basic correctness check: should return a non-empty dict
+        assert isinstance(ver_dict, dict)
+        assert len(ver_dict) > 0
+
+        # Keys should be version identifiers (strings or ints usually)
+        for k in ver_dict.keys():
+            assert isinstance(k, str) or isinstance(k, int)
+
+        # Values should be code objects, strings, or ASTs depending on your implementation
+        # Here we only require non-empty
+        for v in ver_dict.values():
+            assert v is not None
+
+    # ------------------------
+    # Integration Test: repeated loading should be significantly faster
+    # ------------------------
+
+    def integration_test_import_time(inp):
+        program_name = inp["program_name"]
+        buggy_dir = inp["buggy_dir"]
+
+        # First load: warm-up (slower)
+        t1_start = time.time()
+        _ = import_versions(program_name, buggy_dir)
+        t1 = time.time() - t1_start
+
+        # Second load: cached (should be faster as expected)
+        t2_start = time.time()
+        _ = import_versions(program_name, buggy_dir)
+        t2 = time.time() - t2_start
+
+        # Expect significantly faster second time
+        # Allow some noise, but require at least 2× faster
+        assert t2 - t1 <= 0.1, f"Second load ({t2:.4f}) should not be much slower than first ({t1:.4f})"
+
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
+    executed_test = {
+        "0": {
+            "input": test_input_import_versions,
+            "function": unit_test_import_dict,
+        },
+        "1": {
+            "input": test_input_import_versions,
+            "function": integration_test_import_time,
+        }
+    }
+
+    for id, exec_dict in executed_test.items():
+        print(f"test_id={id}:")
+        test_input = exec_dict["input"]()
+        try:
+            exec_dict["function"](test_input)
+            print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

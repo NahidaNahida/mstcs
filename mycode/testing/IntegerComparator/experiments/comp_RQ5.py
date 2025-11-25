@@ -126,7 +126,7 @@ if __name__ == '__main__':
     save_dir = RQ_saving_dir(_RQ_NAME, program_name, args.mode)
     # Execute the test processes
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         for task_name, current_exe in exe_dict.items():
             n_list = input_data["qubit_list"]
             L_list = input_data["L_list"]

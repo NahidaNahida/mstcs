@@ -1,6 +1,6 @@
 # mycode\utils\__init__.py
 
-from .data_convertion import (
+from .data_conversion import (
     generate_numbers, 
     covered_pure_states, 
     outputdict2samps,
