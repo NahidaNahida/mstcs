@@ -11,7 +11,7 @@ Li Y, Cai K Y, Yin B. Preparation and Utilization of Mixed States for Testing Qu
 
 Paper link: [https://dl.acm.org/doi/abs/10.1145/3736757](https://dl.acm.org/doi/abs/10.1145/3736757).
 
-The archived version of this artifact can be found in [https://zenodo.org/records/15462299](https://zenodo.org/records/15462299).
+The latest archived version of this artifact can be found in [https://doi.org/10.5281/zenodo.15441517](https://doi.org/10.5281/zenodo.15441517).
 
 ## Steps for Replication
 
@@ -94,14 +94,14 @@ Herein, we list their basic info:
 | `repeat_until_success.py`       | For the use of RQ2, execute a quantum circuit repeatedly until all measurement results are valid. | 2 unit tests and 2 manual checkpoints |
 | `test_oracle.py`                | Implement the test oracle (i.e., output probability oracle) to identify the test results (i.e., pass or fail). | 2 unit tests                          |
 
-How to run the tests? We provide the required command in the docstring under `if __name__ == "__main__":` just before the provided tests. For example, there is the code snippet of `data_convertion.py`, and we can run `python mycode/utils/data_convertion.py` to execute all the tests.
+How to run the tests? We provide the required command in the docstring under `if __name__ == "__main__":` just before the provided tests. For example, there is the code snippet of `data_conversion.py`, and we can run `python mycode/utils/data_conversion.py` to execute all the tests.
 
 ```python
 if __name__ == "__main__":
     """
     Unit / Integration Testing for helper functions.
     Run:
-        python mycode/utils/data_convertion.py
+        python mycode/utils/data_conversion.py
     """
 ```
 
