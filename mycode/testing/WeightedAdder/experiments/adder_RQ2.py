@@ -26,7 +26,8 @@ def _RQ_running_MSTC_core(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     repeats: int,
-    process_func: Callable
+    process_func: Callable,
+    verbose: bool=False
 ) -> list:
     recorded_list = process_func(
         program_version,
@@ -34,7 +35,8 @@ def _RQ_running_MSTC_core(
         inputs_list,
         mixed_pre_mode,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -48,7 +50,18 @@ if __name__ == '__main__':
     from ..config.RQ2_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -88,7 +101,7 @@ if __name__ == '__main__':
     
     # Execute the test process
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         recorded_result = []
         for current_exe in exe_dict.values():
             for mode in ["bits", "qubits"]:
@@ -100,7 +113,8 @@ if __name__ == '__main__':
                     weight_dict, 
                     input_states,
                     mode,
-                    exe_repeats
+                    exe_repeats,
+                    verbose=args.verbose
                 )
 
         # Save the data

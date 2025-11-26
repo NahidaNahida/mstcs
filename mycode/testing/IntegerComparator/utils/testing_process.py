@@ -46,10 +46,13 @@ def testing_process_PSTCs(
     L_list: list[int], 
     sign_list: list[bool], 
     shots: int,
-    repeats: int
+    repeats: int,
+    verbose: bool
 ) -> list[dict]:
     recorded_result = []      
-    for n in n_list:            
+    for n in n_list:
+        if verbose:
+            print(f"Executing PSTCs. Test cases: n = {str(n)}.")             
         initial_states_list = generate_numbers(n, len(candidate_initial_states))
         num_classical_inputs = len(L_list) * len(sign_list)
         start_time = time.time()
@@ -114,12 +117,15 @@ def testing_process_MSTCs(
     pre_mode: Literal["bits", "qubits"],
     shots: int,
     repeats: int,
+    verbose: bool,
     pure_state_dist: Literal["uniform"] = "uniform",
     num_controls: Literal["equal"] = "equal"
 ) -> list[dict]:
     
     recorded_result = []      
-    for n in n_list:  
+    for n in n_list:
+        if verbose:
+            print(f"Executing MSTCs. Test cases: n = {str(n)}, Control mode: {pre_mode}.")  
         # Define the uniform distribution for the ensemble
         pure_states_distribution = pure_state_distribution(n, pure_state_dist)
 
@@ -192,11 +198,19 @@ def testing_process_MSTCs_1MS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     shots: int, 
-    repeats: int
+    repeats: int,
+    verbose: bool
 ) -> list[dict]:
     
     recorded_result = []      
-    for inputs in inputs_list:
+    for verbose_idx, inputs in enumerate(inputs_list):
+        if verbose:
+            print(
+                f"Executing MSTCs with the one mixed state mode." 
+                f"Test inputs {verbose_idx + 1} / {len(inputs_list)}," 
+                f"Control mode: {mixed_pre_mode}."
+            )
+
         # Assign values to variables
         n, m = inputs["num_target"], inputs["num_control"]
         angle_list = list(inputs["angles"].values())[0]
@@ -268,11 +282,19 @@ def testing_process_MSTCs_2MS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"], 
     shots: int,
-    repeats: int
+    repeats: int,
+    verbose: bool
 ) -> list[dict]:
 
     recorded_result = []      
-    for inputs in inputs_list:
+    for verbose_idx, inputs in enumerate(inputs_list):
+        if verbose:
+            print(
+                f"Executing MSTCs with the two mixed state mode." 
+                f"Test inputs {verbose_idx + 1} / {len(inputs_list)},"
+                f"Control mode: {mixed_pre_mode}."
+            )
+
         # Assign values to variables
         n, m = inputs["num_target"], inputs["num_control"]
         angle_lists = list(inputs["angles"].values())
@@ -357,7 +379,8 @@ def testing_process_MSTCs_MPS(
     inputs_list: list, 
     mixed_pre_mode: Literal["bits", "qubits"],
     shots: int, 
-    repeats: int
+    repeats: int,
+    verbose: bool
 ) -> list[dict]:
 
     def pure_state_preparation(n, qc):
@@ -366,8 +389,15 @@ def testing_process_MSTCs_MPS(
  
     recorded_result = []      
     state_list = ['mixed', 'pure']
+    
+    for verbose_idx, inputs in enumerate(inputs_list):
+        if verbose:
+            print(
+                f"Executing MSTCs with the hybrid mixed-pure state mode."
+                f"Test inputs {verbose_idx + 1} / {len(inputs_list)}," 
+                f"Control mode: {mixed_pre_mode}."
+            )
 
-    for inputs in inputs_list:
         # Assign values to variables
         n, m = inputs["num_target"], inputs["num_control"]
         angle_list = list(inputs["angles"].values())[0]

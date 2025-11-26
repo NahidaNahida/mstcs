@@ -124,3 +124,104 @@ def generate_invalid_numbers(total_bits: int, con_bits: int, invalid_con_list: l
             invalid_num_list.append(combined_binary)
 
     return invalid_num_list
+
+
+if __name__ == "__main__":
+    """
+    Unit testing for repeat_until_success and generate_invalid_numbers.
+    Run:
+        python -m mycode.utils.repeat_until_success
+    """
+
+    shots = 100  # Small number for unit tests
+
+    # ----------------------------
+    # Test inputs
+    # ----------------------------
+
+    def test_input_repeat_until_success():
+        # 2-qubit circuit with Hadamard gates
+        qc = QuantumCircuit(2, 2)
+        qc.h(0)
+        qc.h(1)
+        qc.measure([0, 1], [0, 1])
+        # Consider '3' (binary '11') invalid
+        invalid_list = [3]
+        return qc, shots, invalid_list
+
+    def test_input_generate_invalid_numbers():
+        total_bits = 4  # 2 control + 2 target
+        con_bits = 2
+        invalid_con_list = [2, 3]
+        return total_bits, con_bits, invalid_con_list
+
+    # ----------------------------
+    # Unit tests
+    # ----------------------------
+
+    def unit_test_repeat_until_success(qc_shots_invalid_tuple, shots):
+        qc, shots, invalid_list = qc_shots_invalid_tuple
+        counts = repeat_until_success(qc, shots, invalid_list)
+        # Check type and sum of counts
+        assert isinstance(counts, dict) or isinstance(counts, defaultdict)
+        total_counts = sum(counts.values())
+        assert total_counts == shots
+        # Check no invalid outcome present
+        for key in invalid_list:
+            assert key not in counts
+
+    def unit_test_generate_invalid_numbers(input_tuple):
+        total_bits, con_bits, invalid_con_list = input_tuple
+        invalid_nums = generate_invalid_numbers(total_bits, con_bits, invalid_con_list)
+        # All invalid numbers should be in correct range
+        assert all(0 <= num < 2**total_bits for num in invalid_nums)
+        # Length should be (#invalid_con) * 2^(target bits)
+        high_bits = total_bits - con_bits
+        assert len(invalid_nums) == len(invalid_con_list) * 2**high_bits
+
+    # ----------------------------
+    # Manual check functions
+    # ----------------------------
+
+    def manual_check_repeat_until_success(qc_shots_invalid_tuple, shots):
+        qc, shots, invalid_list = qc_shots_invalid_tuple
+        counts = repeat_until_success(qc, shots, invalid_list)
+        print("\n--- repeat_until_success output ---")
+        print(counts)
+
+    def manual_check_generate_invalid_numbers(input_tuple):
+        total_bits, con_bits, invalid_con_list = input_tuple
+        invalid_nums = generate_invalid_numbers(total_bits, con_bits, invalid_con_list)
+        print("\n--- generate_invalid_numbers output ---")
+        print(invalid_nums)
+
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
+    executed_test = {
+        "0": {"input": test_input_repeat_until_success, "shots": shots, "function": unit_test_repeat_until_success},
+        "1": {"input": test_input_repeat_until_success, "shots": shots, "function": manual_check_repeat_until_success},
+        "2": {"input": test_input_generate_invalid_numbers, "shots": shots, "function": unit_test_generate_invalid_numbers},
+        "3": {"input": test_input_generate_invalid_numbers, "shots": shots, "function": manual_check_generate_invalid_numbers},
+    }
+
+    for test_id, execution_dict in executed_test.items():
+        print(f"\nExecuting test_id={test_id}:")
+        test_input_val = execution_dict["input"]()
+        try:
+            temp_function = execution_dict["function"]
+            if temp_function.__name__ in [
+                "unit_test_generate_invalid_numbers",
+                "manual_check_generate_invalid_numbers"
+            ]:
+                temp_function(test_input_val)
+            else:
+                temp_function(test_input_val, execution_dict["shots"])
+            if "manual" in execution_dict["function"].__name__:
+                print("need manual check")
+            else:
+                print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

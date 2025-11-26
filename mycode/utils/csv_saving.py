@@ -115,14 +115,126 @@ def csv_saving(
     else:
         print(f"Task {task_name} is done! Saved at {file_path}")
 
+ 
 
 if __name__ == "__main__":
-    # Unit testing of ``RQ_saving_path``
-    # Run ``python mycode/utils/csv_saving.py``
-    expected_rq = "RQ3"
-    expected_program = "QuantumFourierTransform"
-    rep_mode = "toy"
-    expected_dir = "data(toy)\\raw_data_for_empirical_results\\RQ3\\QuantumFourierTransform"
+    """
+    Unit & Integration Testing.
+    Run:
+        python mycode/utils/csv_saving.py
+    """
 
-    res_dir = RQ_saving_dir(expected_rq, expected_program, rep_mode)
-    assert expected_dir in res_dir, "Wrong directory!"
+    import tempfile
+    import shutil
+    import os
+
+    # ----------------------------
+    # Test input generators
+    # ----------------------------
+
+    def test_input_rq_saving_dir():
+        return {
+            "rq_name": 2,
+            "program_name": "TestProgram",
+            "rep_mode": "toy",
+        }
+
+    def test_input_rq_saving_name():
+        return {
+            "rq_name": "RQ5",
+            "program_name": "MyProg",
+            "program_ver": "v2",
+            "task_name": "taskA",
+        }
+
+    def test_input_csv_saving():
+        tmp_dir = tempfile.mkdtemp()
+        return {
+            "rq_name": "RQ7",
+            "program_name": "Alpha",
+            "program_ver": "v1",
+            "save_dir": tmp_dir,
+            "header": ["col1", "col2"],
+            "task_name": "T",
+            "data_list": [[1, 2], [3, 4]],
+            "tmp_dir": tmp_dir,
+        }
+
+    # ----------------------------
+    # Unit tests
+    # ----------------------------
+
+    def unit_test_rq_saving_dir(args):
+        res = RQ_saving_dir(**args)
+        # rq_name = 2 → converted to RQ2 automatically
+        assert "RQ2" in res
+        assert "TestProgram" in res
+        assert "data(toy)" in res
+
+    def unit_test_rq_saving_name(args):
+        res = RQ_saving_name(**args)
+        assert res == "RQ5_MyProg_v2_taskA.csv"
+
+    # ----------------------------
+    # Integration test 
+    # ----------------------------
+
+    def integration_test_csv_saving(args):
+        csv_saving(
+            args["rq_name"],
+            args["program_name"],
+            args["program_ver"],
+            args["save_dir"],
+            args["header"],
+            args["task_name"],
+            args["data_list"],
+        )
+
+        expected_name = RQ_saving_name(
+            args["rq_name"],
+            args["program_name"],
+            args["program_ver"],
+            args["task_name"],
+        )
+        file_path = os.path.join(args["save_dir"], expected_name)
+
+        assert os.path.exists(file_path), "CSV file not generated!"
+
+        # Read back to check content
+        with open(file_path, "r") as f:
+            lines = f.read().strip().split("\n")
+            assert lines[0] == "col1,col2"
+            assert lines[1] == "1,2"
+            assert lines[2] == "3,4"
+
+        # clean temp directory
+        shutil.rmtree(args["tmp_dir"])
+
+    # ----------------------------
+    # Test execution table
+    # ----------------------------
+
+    executed_test = {
+        "0": {
+            "input": test_input_rq_saving_dir,
+            "function": unit_test_rq_saving_dir,
+        },
+        "1": {
+            "input": test_input_rq_saving_name,
+            "function": unit_test_rq_saving_name,
+        },
+        "2": {
+            "input": test_input_csv_saving,
+            "function": integration_test_csv_saving,
+        },
+    }
+
+    for id, exec_dict in executed_test.items():
+        print(f"test_id={id}:")
+        test_input = exec_dict["input"]()
+        try:
+            exec_dict["function"](test_input)
+            print("pass")
+        except AssertionError as e:
+            print("fail")
+            raise

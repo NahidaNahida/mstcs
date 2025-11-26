@@ -22,7 +22,8 @@ def _RQ_running_PSTCs(
     program_version: str, 
     n_list: list[int], 
     if_swap_list: list[bool],   
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
     
     recorded_list = testing_process_PSTCs(
@@ -30,7 +31,8 @@ def _RQ_running_PSTCs(
         n_list,
         if_swap_list,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -39,7 +41,8 @@ def _RQ_running_MSTCs(
     n_list: list[int],
     if_swap_list: list[bool],  
     pre_mode: Literal["bits", "qubits"], 
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
 
     recorded_list = testing_process_MSTCs(
@@ -48,7 +51,8 @@ def _RQ_running_MSTCs(
         if_swap_list,
         pre_mode,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -57,7 +61,18 @@ if __name__ == '__main__':
     from ..config.RQ1_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -65,12 +80,13 @@ if __name__ == '__main__':
     save_dir = RQ_saving_dir(_RQ_NAME, program_name, args.mode)
     
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         recorded_result = _RQ_running_PSTCs(
             program_version, 
             input_data["qubit_list"], 
             input_data["if_swap_list"],
-            exe_repeats
+            exe_repeats,
+            verbose=args.verbose
         )
         csv_saving(
             _RQ_NAME, 
@@ -88,7 +104,8 @@ if __name__ == '__main__':
                 input_data["qubit_list"], 
                 input_data["if_swap_list"],
                 control_mode,  # type: ignore
-                exe_repeats
+                exe_repeats,
+                verbose=args.verbose
             )
             csv_saving(
                 _RQ_NAME, 

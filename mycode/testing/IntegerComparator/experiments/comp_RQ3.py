@@ -23,7 +23,8 @@ def _RQ_running_PSTCs(
     n_list: list[int], 
     L_list: list[int], 
     sign_list: list[bool], 
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
     
     recorded_list = testing_process_PSTCs(
@@ -32,7 +33,8 @@ def _RQ_running_PSTCs(
         L_list,
         sign_list,
         default_shots,
-        repeats
+        repeats,
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -42,7 +44,8 @@ def _RQ_running_MSTCs(
     L_list: list[int],
     sign_list: list[bool],
     pre_mode: Literal["bits", "qubits"], 
-    repeats: int
+    repeats: int,
+    verbose: bool=False
 ) -> list[list]:
 
     recorded_list = testing_process_MSTCs(
@@ -52,7 +55,8 @@ def _RQ_running_MSTCs(
         sign_list,
         pre_mode,
         default_shots,
-        repeats
+        repeats,\
+        verbose
     )
     return required_data(_RQ_NAME, recorded_list)
 
@@ -62,7 +66,18 @@ if __name__ == '__main__':
     from ..config.RQ3_config import config_dict
 
     parser = argparse.ArgumentParser(description=f"adder_{_RQ_NAME}_experiment")
-    parser.add_argument("--mode", type=str, help="replication mode:'toy' or 'all'", default=None)
+    parser.add_argument(
+        '--mode',
+        type=str,
+        help="Replication mode, either `toy` for a small subset of test suites or `all` for all the test cases.",
+        choices=["toy", "all"],
+        default=None
+    )
+    parser.add_argument(
+        "--verbose", 
+        action="store_true",
+        help="Print detailed progress information."
+    )
     args = parser.parse_args()
 
     input_data = rep_mode_selection(config_dict, args.mode)
@@ -71,7 +86,7 @@ if __name__ == '__main__':
     exe_dict = {"PSTC": _RQ_running_PSTCs, "MSTC":_RQ_running_MSTCs}
     # Execute the test processes
     for program_version in input_data["versions"]:
-        print(program_version)
+        print(f"Buggy mutant: {program_version}")
         for task_name, exe_function in exe_dict.items():
             if task_name == "PSTC":
                 recorded_data = exe_function(
@@ -79,7 +94,8 @@ if __name__ == '__main__':
                     input_data["qubit_list"], 
                     input_data["L_list"],
                     input_data["sign_list"],
-                    exe_repeats 
+                    exe_repeats,
+                    verbose=args.verbose
                 )            
             elif task_name == "MSTC":
                 recorded_data = exe_function(
@@ -88,7 +104,8 @@ if __name__ == '__main__':
                     input_data["L_list"],
                     input_data["sign_list"],
                     "qubits",
-                    exe_repeats 
+                    exe_repeats,
+                    verbose=args.verbose
                 )
 
             csv_saving(
