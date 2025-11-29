@@ -58,6 +58,18 @@ This repository includes two notebooks:
 + `motivational_example.ipynb`: Through this notebook, we can run and analyze a toy example of `WA-v4` introduced as the motivation for proposing MSTCs. Especially, this notebook prints the test results of executing all PSTCs and draws quantum circuits of the program version under test. More details about the example can be found in Section 4 of our TOSEM paper. The generated test results and quantum circuit diagrams will be saved in the directory `mstcs/<SAVE_MODE>/motivational_examples`.
 + `drawing_figures.ipynb`: It aims to reproduce two figures (i.e., Fig. 10 for RQ1 and Fig. 11 for RQ5) involved in empirical studies. Note that its successful work relies on the complete results produced from the all mode. Still, we can test the functionality of this notebook based on the raw data offered in the folder `rawdata`. The produced figures will be saved in the directory `mstcs/<SAVE_MODE>/plotting_for_empirical_results`.
 
+#### Conda Environment
+
+For the usage of conda environment, we can install the Jupyter kernel via the following command after creating the environment `mstcs`,
+
+```bat
+python -m ipykernel install --user --name mstcs
+```
+
+ Then, we can directly select this environment’s kernel to run the Jupyter notebooks.
+
+#### Docker Container
+
 If we intend to run Jupyter notebooks within the container `mstcs−container`, then run one of the following two alternatives,
 
 + For Jupyter Notebook interface configured by `NotebookApp`:
