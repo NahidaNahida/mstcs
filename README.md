@@ -1,15 +1,24 @@
 # mstcs 
 MSTCs (i.e., mixed-state test cases) is a new concept proposed in our paper. It suggests preparing and utilizing mixed states as the test inputs for quantum programs, since the mixed states have the power to represent multiple pure states in a probabilistic combination. Therefore, an MSTC demonstrates a higher input domain coverage than a PSTC (i.e., pure-state test cases) that are widely discussed in existing works, thereby contributing to the test effectiveness and efficiency. The empirical evaluation of MSTCs is based on the quantum software development kit Qiskit, and the backend is selected as an ideal simulator. For more details, please refer to our paper.
 
-## Publication
+## Publications
 
-This repository includes the all code and data involved in our paper "*Preparation and Utilization of Mixed States for Testing Quantum Programs*" that has been accepted as a journal-first article at ACM Transactions on Software Engineering and Methodology (TOSEM). 
+This repository includes the all code and data involved in our paper "*Preparation and Utilization of Mixed States for Testing Quantum Programs*" that has been accepted as a journal-first article at ACM Transactions on Software Engineering and Methodology (TOSEM): 
 
 ```
-Li Y, Cai K Y, Yin B. Preparation and Utilization of Mixed States for Testing Quantum Programs[J]. ACM Transactions on Software Engineering and Methodology, 2025. 
+Yuechen Li, Kai-Yuan Cai, and Beibei Yin. 2025. Preparation and Utilization of Mixed States for Testing Quantum Programs. ACM Trans. Softw. Eng. Methodol. 34, 8, Article 238 (November 2025), 44 pages. https://doi.org/10.1145/3736757
 ```
 
-Paper link: [https://dl.acm.org/doi/abs/10.1145/3736757](https://dl.acm.org/doi/abs/10.1145/3736757).
+where the paper link is [https://dl.acm.org/doi/abs/10.1145/3736757](https://dl.acm.org/doi/abs/10.1145/3736757).
+
+Moreover, we published a Replicated Computational Results (RCR) report to guide the usage and reproduction of our artifacts at TOSEM:
+
+```
+Yuechen Li, Kai-Yuan Cai, and Beibei Yin. 2025. Preparation and Utilization of Mixed States for Testing Quantum Programs–RCR Report. ACM Trans. Softw. Eng. Methodol. Just Accepted (December 2025). https://doi.org/10.1145/3786776
+```
+where the paper link is [https://dl.acm.org/doi/10.1145/3786776](https://dl.acm.org/doi/10.1145/3786776).
+
+Please feel free to go through our papers.
 
 The latest archived version of this artifact can be found in [https://doi.org/10.5281/zenodo.15441517](https://doi.org/10.5281/zenodo.15441517).
 
@@ -118,3 +127,4 @@ if __name__ == "__main__":
 ```
 
 We do not unify the commands to use `python -m`, because imports through `python -m` will be handled strictly according to the package structure, thus exposing issues related to imports within the package.
+
